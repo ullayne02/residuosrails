@@ -1,0 +1,47 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Reports</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Generate by</th>
+      <th>Begin dt</th>
+      <th>End dt</th>
+      <th>Unit</th>
+      <th>State</th>
+      <th>Kind</th>
+      <th>Onu</th>
+      <th>Blend</th>
+      <th>Code</th>
+      <th>Total</th>
+      <th>Collection</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @reports.each do |report| %>
+      <tr>
+        <td><%= report.generate_by %></td>
+        <td><%= report.begin_dt %></td>
+        <td><%= report.end_dt %></td>
+        <td><%= report.unit %></td>
+        <td><%= report.state %></td>
+        <td><%= report.kind %></td>
+        <td><%= report.onu %></td>
+        <td><%= report.blend %></td>
+        <td><%= report.code %></td>
+        <td><%= report.total %></td>
+        <td><%= report.collection %></td>
+        <td><%= link_to 'Show', report %></td>
+        <td><%= link_to 'Edit', edit_report_path(report) %></td>
+        <td><%= link_to 'Destroy', report, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Report', new_report_path %>

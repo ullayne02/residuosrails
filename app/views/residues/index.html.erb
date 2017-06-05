@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Residues</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Kind</th>
+      <th>Blend</th>
+      <th>Onu</th>
+      <th>Code</th>
+      <th>Laboratory</th>
+      <th>Collection</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @residues.each do |residue| %>
+      <tr>
+        <td><%= residue.name %></td>
+        <td><%= residue.kind %></td>
+        <td><%= residue.blend %></td>
+        <td><%= residue.onu %></td>
+        <td><%= residue.code %></td>
+        <td><%= residue.laboratory %></td>
+        <td><%= residue.collection %></td>
+        <td><%= link_to 'Show', residue %></td>
+        <td><%= link_to 'Edit', edit_residue_path(residue) %></td>
+        <td><%= link_to 'Destroy', residue, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Residue', new_residue_path %>

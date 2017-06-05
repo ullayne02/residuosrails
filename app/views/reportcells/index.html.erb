@@ -1,0 +1,47 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Reportcells</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Dep name</th>
+      <th>Lab name</th>
+      <th>Res name</th>
+      <th>Kind</th>
+      <th>Total</th>
+      <th>Onu</th>
+      <th>State</th>
+      <th>Blend</th>
+      <th>Code</th>
+      <th>Unit</th>
+      <th>Report</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @reportcells.each do |reportcell| %>
+      <tr>
+        <td><%= reportcell.dep_name %></td>
+        <td><%= reportcell.lab_name %></td>
+        <td><%= reportcell.res_name %></td>
+        <td><%= reportcell.kind %></td>
+        <td><%= reportcell.total %></td>
+        <td><%= reportcell.onu %></td>
+        <td><%= reportcell.state %></td>
+        <td><%= reportcell.blend %></td>
+        <td><%= reportcell.code %></td>
+        <td><%= reportcell.unit %></td>
+        <td><%= reportcell.report %></td>
+        <td><%= link_to 'Show', reportcell %></td>
+        <td><%= link_to 'Edit', edit_reportcell_path(reportcell) %></td>
+        <td><%= link_to 'Destroy', reportcell, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Reportcell', new_reportcell_path %>
