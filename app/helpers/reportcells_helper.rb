@@ -1,0 +1,2 @@
+module ReportcellsHelper
+end
