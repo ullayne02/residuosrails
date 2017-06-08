@@ -178,10 +178,14 @@ Then(/^eu vejo uma notificação de alerta que o peso dos resíduos do departame
   expect(element).to_not be nil
 end
 
-Given(/^o limitante do sistema é "([^"]*)"kg$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
+Given(/^o limitante do sistema é "([^"]*)"kg$/) do |max_weight|
+  visit '/collections/new'
+  fill_in('collection_max_value', :with => max_weight)
+  click_button 'Create Collection'
 end
 
 Then(/^eu vejo uma notificação de requisição de que o peso dos resíduos do departamento está igual ou maior que o mínimo para fazer a licitação\.$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  element = find("td", text: "Passou do peso limite, deve fazer uma licitação")
+  
+  expect(element).to_not be nil
 end
