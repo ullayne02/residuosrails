@@ -120,20 +120,62 @@ Then(/^o sistema gera uma notificação de alerta de peso próximo ao limite má
   expect(p_not).to_not be nil 
 end
 
-Given(/^que a soma dos pesos dos resíduos cadastrados é "([^"]*)"kg$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
+#######################################################################################################################################
+
+Given(/^o peso próximo ao limitante do sistema é "([^"]*)"kg$/) do |max_value_close|
+  max_weight = max_value_close.to_f() * (1/porcent).to_f()
+  visit '/collections/new'
+  fill_in('collection_max_value', :with => max_weight)
+  click_button 'Create Collection'
 end
 
-Given(/^o peso próximo ao limitante do sistema é "([^"]*)"kg$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
+Given(/^que a soma dos pesos dos resíduos cadastrados é "([^"]*)"kg$/) do |total_weight|
+  dep_name = "dep1"
+  lab_name = "lab1"
+  res_name1 = "res1"
+  res_name2 = "res2"
+  
+  visit '/departments/new'
+  fill_in('department_name', :with => dep_name)
+  click_button 'Create Department'
+  
+  visit '/laboratories/new'
+  fill_in('laboratory_name', :with => lab_name)
+  page.select dep_name, :from => 'laboratory_department_id'
+  click_button 'Create Laboratory'
+  
+  visit '/residues/new'
+  fill_in('residue_name', :with => res_name1)
+  page.select lab_name, :from => 'residue_laboratory_id'
+  click_button 'Create Residue'
+  
+  visit '/residues/new'
+  fill_in('residue_name', :with => res_name2)
+  page.select lab_name, :from => 'residue_laboratory_id'
+  click_button 'Create Residue'
+  
+  weight = total_weight.to_f()/2
+  
+  visit '/registers/new'
+  fill_in('register_weight', :with => weight)
+  page.select res_name1, :from => 'register_residue_id'
+  click_button 'Create Register'
+  
+  visit '/registers/new'
+  fill_in('register_weight', :with => weight)
+  page.select res_name2, :from => 'register_residue_id'
+  click_button 'Create Register'
+  
 end
 
 When(/^eu entro no sistema$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  visit '/main_adm'
 end
 
 Then(/^eu vejo uma notificação de alerta que o peso dos resíduos do departamento está se aproximando do peso mínimo para fazer a licitação$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  element = find("td", text: "O peso está próximo do peso mínimo para fazer uma licitação")
+  
+  expect(element).to_not be nil
 end
 
 Given(/^o limitante do sistema é "([^"]*)"kg$/) do |arg1|
