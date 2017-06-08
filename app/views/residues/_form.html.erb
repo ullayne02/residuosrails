@@ -18,7 +18,7 @@
 
   <div class="field">
     <%= f.label :kind %>
-    <%= f.text_field :kind %>
+    <%= f.select :kind, ["Sólido Orgânico","Sólido Inorgânico","Líquido Orgânico","Líquido Inorgânico","Líquido Inflamável","Outros"]%>
   </div>
 
   <div class="field">
@@ -38,12 +38,12 @@
 
   <div class="field">
     <%= f.label :laboratory_id %>
-    <%= f.text_field :laboratory_id %>
+    <%= f.collection_select(:laboratory_id, Laboratory.all.order(:name), :id, :name) %>
   </div>
 
   <div class="field">
     <%= f.label :collection_id %>
-    <%= f.text_field :collection_id %>
+    <%= f.collection_select(:collection_id, Collection.all.where(created_at: Collection.last.created_at), :id, :id) %>
   </div>
 
   <div class="actions">

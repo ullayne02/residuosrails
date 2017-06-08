@@ -15,7 +15,7 @@
     <% @registers.each do |register| %>
       <tr>
         <td><%= register.weight %></td>
-        <td><%= register.residue %></td>
+        <td><%= Residue.find(register.residue_id).name %></td>
         <td><%= link_to 'Show', register %></td>
         <td><%= link_to 'Edit', edit_register_path(register) %></td>
         <td><%= link_to 'Destroy', register, method: :delete, data: { confirm: 'Are you sure?' } %></td>

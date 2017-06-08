@@ -18,7 +18,7 @@
 
   <div class="field">
     <%= f.label :residue_id %>
-    <%= f.text_field :residue_id %>
+    <%= f.collection_select(:residue_id, Residue.all.order(:name), :id, :name) %>
   </div>
 
   <div class="actions">

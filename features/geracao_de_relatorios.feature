@@ -54,7 +54,7 @@ Feature: Geração de Relatórios
   @c6
   Scenario: Produzir relatórios com filtros sobre Departamentos / Laboratórios
     Given o sistema possui o departamento de "Engenharia Química" cadastrado
-    And o sistema possui o laboratorio de "Planejamento Avaliação e Síntese de Fármacos" cadastrado no departamento de "Engenharia Química"
+    And o sistema possui o laboratório de "Planejamento Avaliação e Síntese de Fármacos" cadastrado no departamento de "Engenharia Química"
     And o resíduo "Ácido Clorídrico" possui tipo como "Liquido Inorganico", peso como "300"Kg e código ONU como "2810" no laboratorio de "Planejamento Avaliação e Síntese de Fármacos"
     When eu tento produzir um relatório dos resíduos do laboratório de "Planejamento Avaliação e Síntese de Fármacos", com os filtros tipo e peso.
     Then o sistema retorna as informações "Liquido Inorganico" e "300"Kg para o resíduo "Ácido Clorídrico"
