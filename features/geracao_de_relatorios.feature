@@ -22,23 +22,23 @@ Feature: Geração de Relatórios
   
   @c3
   Scenario: Produzir relatório de resíduos por laboratório entre datas específicas.
-    Given que estou na página "Geração de Relatórios"
-    And a opção de gerar por "laboratório" está selecionada
-    And eu vejo uma lista de "laboratórios" disponíveis no sistema.
+    Given que estou na página Geração de Relatórios
+    And a opção de gerar por "Laboratório" está selecionada
+    And eu vejo uma lista de "Laboratórios" disponíveis no sistema.
     And  eu seleciono o "Laboratório de Processos Químicos"
-    And no campo  "Data" eu vejo "21/02/2017" para início  e "24/03/2017" para final.
-    When eu peço para "Gerar Relatório"
+    And no campo data eu vejo "21/02/2017" para início  e "24/03/2017" para final.
+    When eu peço para Gerar Relatório
     And eu vou para a página de resumo de sistema
     Then eu devo visualizar a quantidade de resíduos produzidos, associado ao "Laboratório de Processos Químicos" entre as datas  "21/02/2017" e  "24/03/2017"
   
   @c4
   Scenario: Produzir relatório mensal do total de resíduo(s) para um departamento específico.
-    Given  que estou na página "Geração de Relatórios"
-    And  opção de gerar por "Departamento" está selecionada
-    And eu vejo uma lista de "Departamento" disponíveis no sistema.
+    Given que estou na página Geração de Relatórios
+    And a opção de gerar por "Departamento" está selecionada
+    And eu vejo uma lista de "Departamentos" disponíveis no sistema.
     And  eu seleciono o "Departamento de Engenharia Química"
-    And no campo  "Data" eu vejo "21/02/2017" para início  e "21/03/2017" para final.
-    When eu peço para gerar "Gerar Relatório"
+    And no campo data eu vejo "21/02/2017" para início  e "21/03/2017" para final.
+    When eu peço para Gerar Relatório
     And vou para a página de resumo de sistema
     Then eu devo visualizar a quantidade de resíduos produzidos associado ao "Departamento de Engenharia Química" entre as datas  "21/02/2017" e  "21/03/2017"
 

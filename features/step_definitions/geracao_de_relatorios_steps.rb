@@ -139,6 +139,101 @@ Then(/^o sistema retorna as informações "([^"]*)" e "([^"]*)"Kg para o resídu
   expect(total).to eq(quant.to_f())
   expect(repc[0].kind).to eq (kind)
 end
+##################################################GUI######################################################################
+
+Given(/^que estou na página Geração de Relatórios/) do
+   
+    dep_name = "Departamento de Engenharia Química"
+    lab_name = "Laboratório de Processos Químicos"
+    res_name = "Hidróxido de Amônio"
+    create_department_gui(dep_name)
+    create_laboratory_gui(lab_name, dep_name)
+    create_residue_gui(res_name, lab_name)
+    create_register_gui(175.to_f(), res_name)
+    res_name = "Sulfato de Amônio"
+    create_residue_gui(res_name,lab_name)
+    create_register_gui(100.to_f(), res_name)
+    
+    dep_name = "Departamento de Física"
+    lab_name = "Laboratório de Análises"
+    #create_department_gui(dep_name)
+    #create_laboratory_gui(lab_name, dep_name)
+    
+   
+  visit '/reports/new'
+end
+
+Given(/^a opção de gerar por "([^"]*)" está selecionada$/) do |arg1|
+    if arg1 == "Departamento" then
+      page.choose('rb1')
+       choice = 'rb1'
+    elsif arg1 == "Laboratório" then
+      page.choose('rb2')
+      choice = 'rb2'
+    elsif arg1 == "Resíduo" then
+      page.choose('rb3')
+       choice = 'rb3'
+    end
+    expect(find_field(choice)).to be_checked
+    
+ 
+      
+  
+end
+
+Given(/^eu vejo uma lista de "([^"]*)" disponíveis no sistema\.$/) do |arg1|
+     if arg1 == "Departamentos" then
+       choice = "rb1_list"
+       
+    elsif arg1 == "Laboratórios" then
+       choice = "rb2_list"
+       
+    elsif arg1 == "Resíduos" then
+       choice = "rb3_list"
+     
+    end
+    expect(page.find(:id, 'report_list').visible?).to be true
+    
+end
+
+Given(/^eu seleciono o "([^"]*)"$/) do |arg1|
+     page.select arg1, :from => 'report_list'
+     page.save_screenshot
+end
+
+Given(/^no campo data eu vejo "([^"]*)" para início  e "([^"]*)" para final\.$/) do |arg1, arg2|
+  d = arg1.to_date
+  ano = d.cwyear
+  page.select ano, :from => 'report_begin_dt_1i'
+  mes = d.strftime("%B")
+  page.select mes, :from => 'report_begin_dt_2i'
+  dia = d.wday
+  page.select dia, :from => 'report_begin_dt_3i'
+  
+  d = arg2.to_date
+  ano = d.cwyear
+  page.select ano, :from => 'report_end_dt_1i'
+  mes = d.strftime("%B")
+  page.select mes, :from => 'report_end_dt_2i'
+  dia = d.wday
+  page.select dia, :from => 'report_end_dt_3i'
+  
+  
+  
+end
+
+When(/^eu peço para Gerar Relatório$/) do 
+  click_button 'Create Report'
+end
+
+When(/^eu vou para a página de resumo de sistema$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^eu devo visualizar a quantidade de resíduos produzidos, associado ao "([^"]*)" entre as datas  "([^"]*)" e  "([^"]*)"$/) do |arg1, arg2, arg3|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
 
 def sum_registers(res,data_begin,data_final)
    residues_total_in_data = 0
@@ -176,4 +271,53 @@ def modify_date_last_register(res_id, date)
   reg.created_at = date.to_date
   reg.save
 end
+
+def create_department_gui(arg1)
+  visit '/departments/new'
+  fill_in('department_name', :with => arg1)
+  click_button 'Create Department'
+ 
+end
+
+def create_laboratory_gui(arg1, arg2)
+  visit '/laboratories/new'
+  fill_in('laboratory_name', :with => arg1)
+  page.select arg2, :from => 'laboratory_department_id'
+  click_button 'Create Laboratory'
+  
+end
+
+def create_residue_gui(arg1, arg2)
+  visit '/residues/new'
+  fill_in('residue_name', :with => arg1)
+  page.select arg2, :from => 'residue_laboratory_id'
+  click_button 'Create Residue'
+end
+
+def create_register_gui(arg1, arg2)
+  visit '/registers/new'
+  fill_in('register_weight', :with => arg1)
+  page.select arg2, :from => 'register_residue_id'
+  click_button 'Create Register'
+end
+
+def destroy_all
+    Department.all.each do |it|
+      it.destroy
+    end
+    Laboratory.all.each do |it|
+      it.destroy
+    end
+    Residue.all.each do |it|
+      it.destroy
+    end
+    Register.all.each do |it|
+      it.destroy
+    end
+  end
+
+  
+  
+  
+  
 

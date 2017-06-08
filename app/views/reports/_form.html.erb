@@ -64,15 +64,15 @@
   </div>
   
   <div id="rb1_list">
-    <%= f.collection_select :list, Department.order(:name), :name, :name, {multiple: true} %>
+    <%= f.collection_select :list, Department.order(:name), :name, :name, {include_blank: false}, {multiple: true} %>
   </div>
 
   <div id="rb2_list">
-    <%= f.collection_select :list, Laboratory.order(:name), :name, :name, {multiple: true} %>
+    <%= f.collection_select :list, Laboratory.order(:name), :name, :name, {include_blank: false}, {multiple: true} %>
   </div>
 
   <div id="rb3_list">
-    <%= f.collection_select :list, Residue.order(:name), :name, :name, {multiple: true} %>
+    <%= f.collection_select :list, Residue.order(:name), :name, :name, {include_blank: false}, {multiple: true} %>
   </div>
 
   <div class="field">
