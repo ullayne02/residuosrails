@@ -5,15 +5,14 @@ class Residue < ApplicationRecord
   
   def weight
     total = 0.0
-    Register.where(created_at: [Collection.last.created_at..Time.now]).each do |register|
-      if self.id = register.residue_id
+    if Collection.all.empty? then
+      total = self.registers.sum(:weight)
+    else
+      self.registers.where(created_at: [Collection.last.created_at..Time.now]).each do |register|
         total += register.weight
       end
     end
     return total
   end
-  
-  def total_res
-    self.registers.sum(:weight)
-  end
+
 end

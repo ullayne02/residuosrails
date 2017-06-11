@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe "registers/show", type: :view do
+RSpec.describe "reportregs/show", type: :view do
   before(:each) do
-    @register = assign(:register, Register.create!(
+    @reportreg = assign(:reportreg, Reportreg.create!(
       :weight => 2.5,
-      :residue => nil
+      :report => nil
     ))
   end
 

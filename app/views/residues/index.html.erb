@@ -25,7 +25,7 @@
         <td><%= residue.onu %></td>
         <td><%= residue.code %></td>
         <td><%= Laboratory.find(residue.laboratory_id).name %></td>
-        <td><%= Collection.find(residue.collection_id).id%></td>
+        <td><%= (residue.collection_id != nil ? Collection.find(residue.collection_id).id : "SEM COLLECTION") %></td>
         <td><%= link_to 'Show', residue %></td>
         <td><%= link_to 'Edit', edit_residue_path(residue) %></td>
         <td><%= link_to 'Destroy', residue, method: :delete, data: { confirm: 'Are you sure?' } %></td>
