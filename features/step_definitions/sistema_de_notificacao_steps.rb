@@ -1,5 +1,4 @@
 @department = nil
-@laboratorie = nil
 porcent = 0.93333333
 
 Given(/^o sistema possui o departamento de "([^"]*)"$/) do |dep_name|
@@ -13,8 +12,8 @@ Given(/^o sistema possui o laboratório de "([^"]*)"$/) do |lab_name|
   dep = Department.find_by(name: @department.name)
   lab_params = {laboratory: {name: lab_name, department_id: dep.id}}
   post '/laboratories', lab_params
-  @laboratorie = Laboratory.find_by(name: lab_name)
-  expect(@laboratorie).to_not be nil
+  lab = Laboratory.find_by(name: lab_name)
+  expect(lab).to_not be nil
 end
 
 Given(/^o sistema possui o resíduo "([^"]*)" cadastrado no laboratorio de "([^"]*)"$/) do |res_name, lab_name|
