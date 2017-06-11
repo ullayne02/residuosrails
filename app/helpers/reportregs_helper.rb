@@ -1,0 +1,2 @@
+module ReportregsHelper
+end

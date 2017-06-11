@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :reportregs
   resources :reportcells
   resources :reports
   resources :notifications
