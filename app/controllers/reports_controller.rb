@@ -1,5 +1,8 @@
 class ReportsController < ApplicationController
   before_action :set_report, only: [:show, :edit, :update, :destroy]
+  
+  @begin_datetime
+  @end_datetime
 
   # GET /reports
   # GET /reports.json
@@ -25,6 +28,14 @@ class ReportsController < ApplicationController
   # POST /reports.json
   def create
     @report = Report.new(report_params)
+    
+    if report_params[:begin_dt] == nil and report_params[:end_dt] == nil then
+      @begin_datetime = Time.new(report_params["begin_dt(1i)"].to_i, report_params["begin_dt(2i)"].to_i, report_params["begin_dt(3i)"].to_i, report_params["begin_dt(4i)"].to_i, report_params["begin_dt(5i)"].to_i)
+      @end_datetime = Time.new(report_params["end_dt(1i)"].to_i, report_params["end_dt(2i)"].to_i, report_params["end_dt(3i)"].to_i, report_params["end_dt(4i)"].to_i, report_params["end_dt(5i)"].to_i)
+    else 
+      @begin_datetime = report_params[:begin_dt].to_date
+      @end_datetime = report_params[:end_dt].to_date
+    end
     
     respond_to do |format|
       if @report.save
@@ -73,22 +84,17 @@ class ReportsController < ApplicationController
   
   def generate_by_department
     report_params[:list].each do |dep_name|
+      if dep_name == "" then
+        next
+      end
       dep = Department.find_by(name: dep_name)
       dep.laboratories.each do |lab|
         lab.residues.each do |res|
-          regs = res.registers.where(created_at: [report_params[:begin_dt]..report_params[:end_dt]]).order(:created_at)
-          add_registers(regs)
-          repc = nil
-          Reportcell.where(res_name: res.name, dep_name: dep_name).each do |rep_cell|
-            if res.name == rep_cell.res_name then
-              repc = rep_cell
-              break
-            end
-          end
+          repc = @report.reportcells.find_by(res_name: res.name, dep_name: dep_name)
           if repc == nil then
             repc = Reportcell.create(dep_name: dep_name, res_name: res.name, total: 0, report_id: @report.id)
           end
-          add_constraint(repc, res, regs.sum(:weight))
+          add_constraint(repc, res, add_registers(res).sum(:weight))
         end
       end
     end
@@ -96,43 +102,41 @@ class ReportsController < ApplicationController
   
   def generate_by_laboratory
     report_params[:list].each do |lab_name|
+      if lab_name == "" then
+        next
+      end
       lab = Laboratory.find_by(name: lab_name)
       lab.residues.each do |res|
-        regs = res.registers.where(created_at: [report_params[:begin_dt]..report_params[:end_dt]]).order(:created_at)
-        add_registers(regs)
         repc = Reportcell.create(lab_name: lab_name, res_name: res.name, total: 0, report_id: @report.id)
-        add_constraint(repc, res, regs.sum(:weight))
+        add_constraint(repc, res, add_registers(res).sum(:weight))
       end
     end
   end
   
   def generate_by_residue
     report_params[:list].each do |res_name|
+      if res_name == "" then
+        next
+      end
       Residue.where(name: res_name).each do |res|
-        regs = res.registers.where(created_at: [report_params[:begin_dt]..report_params[:end_dt]]).order(:created_at)
-        add_registers(regs)
-        repc = nil
-        Reportcell.where(res_name: res_name).each do |rep_cell|
-          if res.name == rep_cell.res_name then
-            repc = rep_cell
-            break
-          end
-        end
+        repc = @report.reportcells.find_by(res_name: res_name)
         if repc == nil then
           repc = Reportcell.create(res_name: res.name, total: 0, report_id: @report.id)
         end
-        add_constraint(repc, res, regs.sum(:weight))
+        add_constraint(repc, res, add_registers(res).sum(:weight))
       end
     end
   end
   
-  def add_registers(regs)
+  def add_registers(res)
+    regs = res.registers.where(created_at: [@begin_datetime..@end_datetime]).order(:created_at)
     regs.each do |reg|
-      @report.registers.create(weight: reg.weight)
-      last_reg = @report.registers.last
+      @report.reportregs.create(weight: reg.weight)
+      last_reg = @report.reportregs.last
       last_reg.created_at = reg.created_at
       last_reg.save
     end
+    regs
   end
   
   def add_constraint(repc, res, total)

@@ -10,23 +10,29 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :name %>
+  <br>
+  
+  <div class="field lb_name">
+    <%= f.label :name, "Nome: " %>
     <%= f.text_field :name %>
   </div>
-
-  <div class="field">
-    <%= f.label :department_id %>
-    <%= f.text_field :department_id %>
+  
+  <br>
+  <div class="field lb_list">
+    <%= f.label :department_id, "Departamento: " %>
+    <%= f.collection_select(:department_id, Department.all.order(:name), :id, :name) %>
   </div>
+  <br>
+  
 
-  <div class="field">
-    <%= f.label :user_id %>
+  <div class="field lb_fac">
+    <%= f.label :user_id, "Facilitador: " %>
     <%= f.text_field :user_id %>
   </div>
-
+  <br>
+  
   <div class="actions">
     <%= f.submit %>
   </div>
+  <br>
 <% end %>

@@ -10,23 +10,25 @@
       </ul>
     </div>
   <% end %>
+<br>
 
-  <div class="field">
-    <%= f.label :weight %>
+  <div class="field reg_weight">
+    <%= f.label :weight ,"Peso:" %>
     <%= f.text_field :weight %>
   </div>
 
-  <div class="field">
-    <%= f.label :residue_id %>
-    <%= f.text_field :residue_id %>
+<br>
+  <div class="field reg_res">
+    <%= f.label :residue_id, "Resíduo" %>
+    <%= f.collection_select(:residue_id, Residue.all.order(:name), :id, :name) %>
   </div>
-
-  <div class="field">
-    <%= f.label :report_id %>
-    <%= f.text_field :report_id %>
-  </div>
+<br>
+<br>
 
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+<br>
+
+

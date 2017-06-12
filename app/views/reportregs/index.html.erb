@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Reportregs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Weight</th>
+      <th>Report</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @reportregs.each do |reportreg| %>
+      <tr>
+        <td><%= reportreg.weight %></td>
+        <td><%= reportreg.report %></td>
+        <td><%= link_to 'Show', reportreg %></td>
+        <td><%= link_to 'Edit', edit_reportreg_path(reportreg) %></td>
+        <td><%= link_to 'Destroy', reportreg, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Reportreg', new_reportreg_path %>

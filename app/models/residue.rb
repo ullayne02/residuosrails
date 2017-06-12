@@ -3,23 +3,16 @@ class Residue < ApplicationRecord
   belongs_to :collection
   has_many :registers, dependent: :destroy
   
-  def total_res
-    self.registers.sum(:weight)
-  end
-  
-  def compare_report_att(res, filter)
-    if filter.kind and self.kind != res.kind then
-      return false
-    elsif filter.onu and self.onu != res.onu then
-      return false
-    elsif filter.code and self.code != res.code then
-      return false
-    elsif filter.blend and self.blend != res.blend then
-      return false
+  def weight
+    total = 0.0
+    if Collection.all.empty? then
+      total = self.registers.sum(:weight)
+    else
+      self.registers.where(created_at: [Collection.last.created_at..Time.now]).each do |register|
+        total += register.weight
+      end
     end
-    true
+    return total
   end
-  
+
 end
-
-

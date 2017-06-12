@@ -22,25 +22,25 @@ Feature: Geração de Relatórios
   
   @c3
   Scenario: Produzir relatório de resíduos por laboratório entre datas específicas.
-    Given que estou na página "Geração de Relatórios"
-    And a opção de gerar por "laboratório" está selecionada
-    And eu vejo uma lista de "laboratórios" disponíveis no sistema.
+    Given que estou na página Geração de Relatórios e eu possuo "300" kg de resíduos cadastrados entre as datas  "21/02/2017" e  "24/03/2017"
+    And a opção de gerar por "Laboratório" está selecionada
+    And eu vejo uma lista de "Laboratórios" disponíveis no sistema.
     And  eu seleciono o "Laboratório de Processos Químicos"
-    And no campo  "Data" eu vejo "21/02/2017" para início  e "24/03/2017" para final.
-    When eu peço para "Gerar Relatório"
+    And no campo data eu vejo "21/02/2017" para início  e "24/03/2017" para final.
+    When eu peço para Gerar Relatório
     And eu vou para a página de resumo de sistema
     Then eu devo visualizar a quantidade de resíduos produzidos, associado ao "Laboratório de Processos Químicos" entre as datas  "21/02/2017" e  "24/03/2017"
   
   @c4
   Scenario: Produzir relatório mensal do total de resíduo(s) para um departamento específico.
-    Given  que estou na página "Geração de Relatórios"
-    And  opção de gerar por "Departamento" está selecionada
-    And eu vejo uma lista de "Departamento" disponíveis no sistema.
+    Given que estou na página Geração de Relatórios e eu possuo "500" kg de resíduos cadastrados entre as datas  "21/02/2017" e  "21/03/2017"
+    And a opção de gerar por "Departamento" está selecionada
+    And eu vejo uma lista de "Departamentos" disponíveis no sistema.
     And  eu seleciono o "Departamento de Engenharia Química"
-    And no campo  "Data" eu vejo "21/02/2017" para início  e "21/03/2017" para final.
-    When eu peço para gerar "Gerar Relatório"
-    And vou para a página de resumo de sistema
-    Then eu devo visualizar a quantidade de resíduos produzidos associado ao "Departamento de Engenharia Química" entre as datas  "21/02/2017" e  "21/03/2017"
+    And no campo data eu vejo "21/02/2017" para início  e "21/03/2017" para final.
+    When eu peço para Gerar Relatório
+    And eu vou para a página de resumo de sistema
+    Then eu devo visualizar a quantidade de resíduos produzidos, associado ao "Departamento de Engenharia Química" entre as datas  "21/02/2017" e  "21/03/2017"
 
   @c5
   Scenario: Produzir relatório de múltiplos Departamentos / Laboratórios / Resíduos
@@ -54,7 +54,7 @@ Feature: Geração de Relatórios
   @c6
   Scenario: Produzir relatórios com filtros sobre Departamentos / Laboratórios
     Given o sistema possui o departamento de "Engenharia Química" cadastrado
-    And o sistema possui o laboratorio de "Planejamento Avaliação e Síntese de Fármacos" cadastrado no departamento de "Engenharia Química"
+    And o sistema possui o laboratório de "Planejamento Avaliação e Síntese de Fármacos" cadastrado no departamento de "Engenharia Química"
     And o resíduo "Ácido Clorídrico" possui tipo como "Liquido Inorganico", peso como "300"Kg e código ONU como "2810" no laboratorio de "Planejamento Avaliação e Síntese de Fármacos"
     When eu tento produzir um relatório dos resíduos do laboratório de "Planejamento Avaliação e Síntese de Fármacos", com os filtros tipo e peso.
     Then o sistema retorna as informações "Liquido Inorganico" e "300"Kg para o resíduo "Ácido Clorídrico"
