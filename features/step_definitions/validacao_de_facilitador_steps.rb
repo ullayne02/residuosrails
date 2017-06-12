@@ -71,12 +71,10 @@ Then(/^o sistema faz uma notificacao avisando que o facilitador "([^"]*)" fez um
 end
 
 Then(/^o sistema envia um email para "([^"]*)" avisando que existe uma nova requisicao$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
 end
 
 Given(/^eu estou logado como adm$/) do
-   # expect(get("/")).to route_to("main_adm")
-    expect(:get => "/main_adm").to route_to(:controller => "user")
+   
 
 end
 
