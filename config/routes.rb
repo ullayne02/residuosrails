@@ -19,12 +19,21 @@ Rails.application.routes.draw do
   get '/main_adm', to: 'application#main_adm'
   get '/genarate_report', to: 'application#genarate_report'
   get '/statistic', to: 'application#statistic'
-  get '/request', to: 'application#request'
+  get '/requests', to: 'application#request'
   get '/account', to: 'application#account'
+<<<<<<< HEAD
   get '/types', to: 'application#types'
   get '/often', to: 'application#often'
   get '/percent', to: 'application#percent'
   get '/generate_types', to: 'application#types'
   get '/generate_types_percent', to: 'application#percent'
   get '/generate_often', to: 'application#often'
+=======
+  
+  get '/accept_request', to: 'requests#accept_request'
+  post '/accept_request', to: 'requests#accept_request'
+  get '/refuse_request', to: 'requests#refuse_request'
+  post '/refuse_request', to: 'requests#refuse_request'
+  
+>>>>>>> 86f42051899c57fcd6a2cc9acc57d75d87f145f9
 end

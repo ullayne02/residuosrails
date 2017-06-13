@@ -16,7 +16,7 @@ Feature: Sistema de Notificação
     
     @a2
     Scenario: O peso da quantidade de resíduos já cadastrados no sistema é maior ou igual que o limite mínimo para emitir um alerta
-         Given o sistema possui o departamento de "Quimica"
+        Given o sistema possui o departamento de "Quimica"
         And o sistema possui o laboratório de "Quimica 1"
         And o sistema possui o resíduo "Acido Cloridrico" cadastrado no laboratorio de "Quimica 1"
         And o peso mínimo para afirmar que está próximo do limitante é de "7000"kg
@@ -27,14 +27,14 @@ Feature: Sistema de Notificação
     
     @a3
     Scenario: Ver a notificação que a quantidade de resíduos está perto do peso mínimo para fazer a licitação
-        Given que a soma dos pesos dos resíduos cadastrados é "7100"kg
-        And o peso próximo ao limitante do sistema é "7000"kg
+        Given o peso próximo ao limitante do sistema é "7000"kg
+        And que a soma dos pesos dos resíduos cadastrados é "7100"kg
         When eu entro no sistema
         Then eu vejo uma notificação de alerta que o peso dos resíduos do departamento está se aproximando do peso mínimo para fazer a licitação
     
     @a4
     Scenario: Ver a notificação que a quantidade de resíduos é maior ou igual do peso mínimo para fazer a licitação
-        Given que a soma dos pesos dos resíduos cadastrados é "7600"kg
-        And o limitante do sistema é "7500"kg
+        Given o limitante do sistema é "7500"kg
+        And que a soma dos pesos dos resíduos cadastrados é "7600"kg
         When eu entro no sistema
         Then eu vejo uma notificação de requisição de que o peso dos resíduos do departamento está igual ou maior que o mínimo para fazer a licitação.

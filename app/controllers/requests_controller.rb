@@ -60,6 +60,26 @@ class RequestsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def accept_request
+    @request = Request.find(params[:request])
+    user = User.find(@request.user_id)
+      lab = Laboratory.find_by(id: @request.laboratory_id)
+      lab.user_id = @request.user_id
+      lab.save
+      req = Request.find_by(laboratory_id: lab.id)
+      req.destroy
+      Notification.create(message: "O administrador aceitou sua solicitação " + user.name)
+      redirect_to "/requests"
+  end
+    
+  def refuse_request
+    @request = Request.find(params[:request])
+    user = User.find_by(id: @request.user_id)
+    @request.destroy
+    Notification.create(message: "O administrador rejeitou sua solicitação " + user.name)
+    redirect_to "/requests"
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -71,4 +91,6 @@ class RequestsController < ApplicationController
     def request_params
       params.require(:request).permit(:user_id, :laboratory_id)
     end
+    
+
 end
