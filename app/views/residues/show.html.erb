@@ -5,17 +5,17 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
+  <strong>Nome:</strong>
   <%= @residue.name %>
 </p>
 
 <p>
-  <strong>Kind:</strong>
+  <strong>Tipo:</strong>
   <%= @residue.kind %>
 </p>
 
 <p>
-  <strong>Blend:</strong>
+  <strong>Composição:</strong>
   <%= @residue.blend %>
 </p>
 
@@ -25,7 +25,7 @@
 </p>
 
 <p>
-  <strong>Code:</strong>
+  <strong>Código:</strong>
   <%= @residue.code %>
 </p>
 
@@ -39,5 +39,10 @@
   <%= @residue.collection.id %>
 </p>
 
-<%= link_to 'Edit', edit_residue_path(@residue) %> |
-<%= link_to 'Back', residues_path %>
+<p>
+  <strong>Peso registrado:</strong>
+  <%= @residue.registers.sum(:weight) %>
+</p>
+
+<%= link_to 'Editar', edit_residue_path(@residue),class: 'css_btn_class' %> |
+<%= link_to 'Voltar', residues_path,class: 'css_btn_class' %>
