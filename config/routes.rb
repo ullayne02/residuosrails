@@ -15,11 +15,18 @@ Rails.application.routes.draw do
   root 'application#index'
   
   get '/main_fac', to: 'application#main_fac'
+  get '/creation', to: 'application#creation'
   get '/main_adm', to: 'application#main_adm'
   get '/genarate_report', to: 'application#genarate_report'
   get '/statistic', to: 'application#statistic'
   get '/requests', to: 'application#request'
   get '/account', to: 'application#account'
+  get '/types', to: 'application#types'
+  get '/often', to: 'application#often'
+  get '/percent', to: 'application#percent'
+  get '/generate_types', to: 'application#types'
+  get '/generate_types_percent', to: 'application#percent'
+  get '/generate_often', to: 'application#often'
   
   get '/accept_request', to: 'requests#accept_request'
   post '/accept_request', to: 'requests#accept_request'

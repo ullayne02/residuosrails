@@ -83,7 +83,7 @@ end
 
 Given(/^existe uma requisicao pendente$/) do
     
-    create_user_gui("lar", "z@cin.ifpe.br", "123", "fac")
+    create_user_gui("lar", "z@cin.ifpe.br", "123", "Facilitador")
     create_department_gui("cin")
     create_laboratory_gui("grad1", "cin")
     create_request_gui("lar", "grad1")
@@ -103,7 +103,7 @@ end
 
 Given(/^o facilitador "([^"]*)" esta associado ao laboratorio de "([^"]*)"$/) do |fac_name, lab_name|
     
-    create_user_gui(fac_name, "a@cin.ifpe.br", "123", "fac")
+    create_user_gui(fac_name, "a@cin.ifpe.br", "123", "Facilitador")
     create_department_gui("cin")
     create_laboratory_gui(lab_name, "cin")
     create_request_gui(fac_name,lab_name)
@@ -190,7 +190,7 @@ Given(/^o facilitador de login "([^"]*)" é um usuário do sistema$/) do |fac_na
     fill_in('user_name', :with => fac_name)
     fill_in('user_email', :with => "joc@cin.ufpe.br")
     fill_in('user_password', :with => "111")
-    fill_in('user_kind', :with => "fac")
+    page.select 'Facilitador', :from => 'user_kind'
     click_button 'Create User'
 end
 
@@ -284,7 +284,7 @@ end
 
 When(/^eu vejo que o facilitador "([^"]*)" fez uma requisicao ao laboratorio "([^"]*)"$/) do |fac_name, lab_name|
     
-    create_user_gui(fac_name, "b@cin.ifpe.br", "123", "fac")
+    create_user_gui(fac_name, "b@cin.ifpe.br", "123", "Facilitador")
     create_department_gui("cin")
     create_laboratory_gui(lab_name, "cin")
     create_request_gui(fac_name,lab_name)
@@ -390,7 +390,7 @@ def create_user_gui(user_name, user_email, password, kind)
     fill_in('user_name', :with => user_name)
     fill_in('user_email', :with => user_email)
     fill_in('user_password', :with => password)
-    fill_in('user_kind', :with => kind)
+    page.select kind, :from => 'user_kind'
     click_button 'Create User'
 end
 

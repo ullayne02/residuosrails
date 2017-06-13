@@ -1,52 +1,77 @@
-<div class="title">
-  <h1>Dados do Resíduo</h1>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="/main_adm"><strong>SGRQ</strong> - Resíduos Químicos</a>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li class="active"><a href="/departments/new">Criações</a></li>
+                    <li><a href="/reports/new">Relatórios</a></li>
+                    <li><a href="/statistic">Estatístico</a></li>
+                    <li><a href="/registers/new">Registro</a></li>
+                    <li><a href="/request">Requisições</a></li>
+                    <li><a href="/account">Perfil</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 
-<p id="notice"><%= notice %></p>
+<br><br>
 
-<p>
-  <strong>Nome:</strong>
-  <%= @residue.name %>
-</p>
+<div class="container">
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Tipos:</li>
+              <li ><a href='/departments/new'>Departamento</a></li>
+              <li><a href='/laboratories/new'>Laboratório</a></li>
+              <li class="active"><a href='/residues/new'>Resíduo</a></li>
+               <li><a href='/collections/new'>Coleta</a></li>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+            <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Tipo:</strong>
-  <%= @residue.kind %>
-</p>
+          <p>
+            <strong>Nome:</strong>
+            <%= @residue.name %>
+          </p>
+          
+          <p>
+            <strong>Tipo:</strong>
+            <%= @residue.kind %>
+          </p>
+          
+          <p>
+            <strong>Composição:</strong>
+            <%= @residue.blend %>
+          </p>
+          
+          <p>
+            <strong>Código ONU:</strong>
+            <%= @residue.onu %>
+          </p>
+          
+          <p>
+            <strong>Código de Class.:</strong>
+            <%= @residue.code %>
+          </p>
+          
+          <p>
+            <strong>Laboratório:</strong>
+            <%= @residue.laboratory.name %>
+          </p>
+        </div><!--/span-->
+      </div><!--/row-->
 
-<p>
-  <strong>Composição:</strong>
-  <%= @residue.blend %>
-</p>
-
-<p>
-  <strong>Onu:</strong>
-  <%= @residue.onu %>
-</p>
-
-<p>
-  <strong>Código:</strong>
-  <%= @residue.code %>
-</p>
-
-<p>
-  <strong>Laboratório:</strong>
-  <%= @residue.laboratory.name %>
-</p>
-
-<p>
-  <strong>Collection:</strong>
-  <%= @residue.collection.id %>
-</p>
-
-<p>
-  <strong>Peso registrado:</strong>
-  <%= @residue.registers.sum(:weight) %>
-</p>
-
-<%= link_to 'Editar', edit_residue_path(@residue),class: 'css_btn_class' %> |
-<<<<<<< HEAD
-<%= link_to 'Voltar', residues_path,class: 'css_btn_class' %>
-=======
-<%= link_to 'Voltar', residues_path,class: 'css_btn_class' %>
->>>>>>> 872009f2e93dd8a8f4b87c670148dd4ac656b041
+      <hr>
+    </div><!--/.fluid-container-->
+</div>

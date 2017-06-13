@@ -5,25 +5,40 @@ class Collection < ApplicationRecord
   
   validates :max_value, presence: true
   
-  
-  
-  attr_accessor :porcent, :mean, :miss_days, :miss_weight, :solido_organico, :solido_inorganico, :liquido_organico, :liquido_inorganico, :liquido_inflamavel, :outros
-  
+  attr_accessor :porcent
+  attr_accessor :mean, :miss_days, :miss_weight, :solido_organico, :solido_inorganico, :liquido_organico, :liquido_inorganico, :liquido_inflamavel, :outros
+  attr_accessor :solido_organico_percent, :solido_inorganico_percent, :liquido_organico_percent, :liquido_inorganico_percent, :liquido_inflamavel_percent, :outros_percent
+  attr_accessor :residue_often_registered_list, :residue_often_registered_number
   
   def generate_prediction
-    collection = Collection.last
+    @mean = calc_mean
+    @miss_weight = calc_miss_weight
+    @miss_days = calc_miss_days
+  end
+  
+  def total_weight
     weight = 0.0
-    Register.all.each do |register|
-      weight += register.weight
+    Residue.all.each do |residue|
+      weight += residue.weight
     end
-    time = Date.today - collection.created_at.to_date
-    mean = weight/time
-    miss_weight = (collection.max_value - weight)
-    miss_days = miss_weight/mean
+    return weight
+  end
+  
+  def calc_mean
+    time = Date.today - Collection.last.created_at.to_date
+    mean = self.total_weight/time
+    return mean
+  end
+  
+  def calc_miss_weight
+    miss_weight = (Collection.last.max_value - self.total_weight)
+    return miss_weight
+  end
+  
+  def calc_miss_days
+    miss_days = @miss_weight/@mean
     miss_days = miss_days.ceil
-    @mean=mean
-    @miss_days=miss_days
-    @miss_weight=miss_weight
+    return miss_days
   end
   
   def type_residue
@@ -33,21 +48,46 @@ class Collection < ApplicationRecord
     @liquido_inorganico = 0.0
     @liquido_inflamavel = 0.0
     @outros  = 0.0
-    Register.all.each do |register|
-      residue = Residue.find_by(id: register.residue_id)
+    Residue.all.each do |residue|
       case residue.kind
       when "Sólido Orgânico"
-        @solido_organico += register.weight
+        @solido_organico += residue.weight
       when "Sólido Inorgânico"
-        @solido_inorganico += register.weight
+        @solido_inorganico += residue.weight
       when "Líquido Orgânico"
-        @liquido_organico += register.weight
+        @liquido_organico += residue.weight
       when "Líquido Inorgânico"
-        @liquido_inorganico += register.weight
+        @liquido_inorganico += residue.weight
       when "Líquido Inflamável"
-        @liquido_inflamavel += register.weight
+        @liquido_inflamavel += residue.weight
       when "Outros"
-        @outros += register.weight
+        @outros += residue.weight
+      end
+    end
+  end
+  
+  def type_residue_percent
+    self.type_residue
+    weight = self.total_weight
+    @solido_organico_percent = ((@solido_organico/weight)*100).round(2)
+    @solido_inorganico_percent = ((@solido_inorganico/weight)*100).round(2)
+    @liquido_organico_percent = ((@liquido_organico/weight)*100).round(2)
+    @liquido_inorganico_percent = ((@liquido_inorganico/weight)*100).round(2)
+    @liquido_inflamavel_percent = ((@liquido_inflamavel/weight)*100).round(2)
+    @outros_percent = ((@outros/weight)*100).round(2)
+  end
+  
+  def residue_often_registered
+    @residue_often_registered_list = Hash.new
+    @residue_often_registered_number = Hash.new(0)
+    Residue.all.order(:created_at).each do |residue|
+      lab = Laboratory.find_by(id: residue.laboratory_id)
+      if residue.number_registers > @residue_often_registered_number[lab.name.parameterize.underscore.to_sym]
+        @residue_often_registered_number[lab.name.parameterize.underscore.to_sym] = residue.number_registers
+        @residue_often_registered_list[lab.name.parameterize.underscore.to_sym] = residue.name
+      elsif residue.number_registers == 0
+      elsif residue.number_registers == @residue_often_registered_number[lab.name.parameterize.underscore.to_sym]
+        @residue_often_registered_list[lab.name.parameterize.underscore.to_sym] += ", "+residue.name
       end
     end
   end
