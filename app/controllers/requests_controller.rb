@@ -69,8 +69,7 @@ class RequestsController < ApplicationController
       lab.save
       req = Request.find_by(laboratory_id: lab.id)
       req.destroy
-      notif = Notification.create(message: "O administrador aceitou sua solicitação " + user.name)
-      notif.fac_id = @request.user_id
+      Notification.create(message: "O administrador aceitou sua solicitação " + user.name)
       redirect_to "/requests"
   end
     
@@ -78,8 +77,7 @@ class RequestsController < ApplicationController
     @request = Request.find(params[:request])
     user = User.find_by(id: @request.user_id)
     @request.destroy
-    notif = Notification.create(message: "O administrador rejeitou sua solicitação " + user.name)
-    notif.fac_id = user.id
+    Notification.create(message: "O administrador rejeitou sua solicitação " + user.name)
     redirect_to "/requests"
   end
 

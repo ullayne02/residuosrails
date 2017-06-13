@@ -1,0 +1,27 @@
+<%= form_for(reportreg) do |f| %>
+  <% if reportreg.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(reportreg.errors.count, "error") %> prohibited this reportreg from being saved:</h2>
+
+      <ul>
+      <% reportreg.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :weight %>
+    <%= f.text_field :weight %>
+  </div>
+
+  <div class="field">
+    <%= f.label :report_id %>
+    <%= f.text_field :report_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

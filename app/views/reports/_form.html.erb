@@ -1,0 +1,127 @@
+<%= form_for(report) do |f| %>
+  <% if report.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(report.errors.count, "error") %> prohibited this report from being saved:</h2>
+
+      <ul>
+      <% report.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <head>
+</head>
+<body>
+  <div class="field_generate">
+<div class ="divider">Gerar por:</div>
+    <div class="flex-container d">
+    <div class ="side_by_side">
+      <%= f.radio_button :generate_by, 1, :checked => true , :id => 'rb1'%> Departamento <br>
+    </div>
+    <div class ="side_by_side">
+       <%= f.radio_button :generate_by, 2, :checked => false , :id => 'rb2'%> Laboratório <br>
+    </div>
+     <div class ="side_by_side">
+      <%= f.radio_button :generate_by, 3, :checked => false , :id => 'rb3'%> Resíduos
+    </div>
+    </div>
+  </div>
+<div class ="divider">Intervalo de datas:</div>
+<div class = "flex-container e">
+  <div class="field_db">
+    <%= f.label "Data Inicial" %>
+    <%= f.datetime_select :begin_dt %>
+  </div>
+
+  <div class="field_de">
+    <%= f.label "Data Final" %>
+    <%= f.datetime_select :end_dt %>
+  </div>
+  
+</div>
+
+  <div class ="divider">Filtros:</div>
+<div class = "flex-container f">
+  
+  <div class="field">
+    <%= f.label :unit %>
+    <%= f.check_box :unit %>
+  </div>
+
+  <div class="field">
+    <%= f.label :state %>
+    <%= f.check_box :state %>
+  </div>
+
+  <div class="field">
+    <%= f.label :kind %>
+    <%= f.check_box :kind %>
+  </div>
+
+  <div class="field">
+    <%= f.label :onu %>
+    <%= f.check_box :onu %>
+  </div>
+
+  <div class="field">
+    <%= f.label :blend %>
+    <%= f.check_box :blend %>
+  </div>
+
+  <div class="field">
+    <%= f.label :code %>
+    <%= f.check_box :code %>
+  </div>
+
+  <div class="field">
+    <%= f.label :total %>
+    <%= f.check_box :total %>
+  </div>
+  </div>
+  
+  <div id="rb1_list">
+    <%= f.collection_select :list, Department.order(:name), :name, :name, {include_blank: false}, {multiple: true} %>
+  </div>
+
+  <div id="rb2_list">
+    <%= f.collection_select :list, Laboratory.order(:name), :name, :name, {include_blank: false}, {multiple: true} %>
+  </div>
+
+  <div id="rb3_list">
+  </div>
+
+  <div class="field">
+    <%= f.label :collection_id %>
+    <%= f.text_field :collection_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+  
+  <script>
+    $(document).ready(function(){
+      $('#rb1_list').show();
+      $('#rb2_list').hide();
+      $('#rb3_list').hide();
+      $("#rb1").click(function(){
+        $('#rb1_list').show();
+        $('#rb2_list').hide();
+        $('#rb3_list').hide();
+      });
+      $("#rb2").click(function(){
+        $('#rb1_list').hide();
+        $('#rb2_list').show();
+        $('#rb3_list').hide();
+      });
+      $("#rb3").click(function(){
+        $('#rb1_list').hide();
+        $('#rb2_list').hide();
+        $('#rb3_list').show();
+      });
+    });
+  </script>
+  
+<% end %>

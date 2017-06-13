@@ -1,0 +1,70 @@
+<p id="notice"><%= notice %></p>
+<div class = "title">
+<h1>
+  <strong>Relatório de </strong>
+  <%if @report.generate_by == 1 %>
+      departamentos
+      <%end%>
+  <% if @report.generate_by == 2 %>
+   laboratórios
+      <%end%>
+  <% if @report.generate_by == 3 %>
+      resíduos
+      <%end%>
+</h1>
+</div>
+
+<p>
+  <strong>Data inicial:</strong>
+  <%= @report.begin_dt %>
+</p>
+
+<p>
+  <strong>Data final:</strong>
+  <%= @report.end_dt %>
+</p>
+
+
+<table>
+  <thead>
+    <tr>
+      <% if @report.generate_by == 1 %><th>Nome do dep.</th><% end %>
+      <% if @report.generate_by == 2 %><th>Nome do lab.</th><% end %>
+      <th>Nome do res.</th>
+      <% if @report.kind %><th>Tipo</th><% end %>
+      <% if @report.state %><th>Estado Físico</th><% end %>
+      <% if @report.code %><th>Codigo de Class.</th><% end %>
+      <% if @report.total %><th>Total (peso)</th><% end %>
+      <% if @report.unit %><th>Unidade</th><% end %>
+      <% if @report.onu %><th>Código ONU</th><% end %>
+      <% if @report.blend %><th>Composição</th><% end %>
+    </tr>
+      
+  </thead>
+
+  <tbody>
+    <% @report.reportcells.each do |rcell| %>
+        <% if @report.generate_by == 1 %><td><%= rcell.dep_name[16,rcell.dep_name.size] %></td><% end %>
+        <% if @report.generate_by == 2 %><td><%= rcell.lab_name[15,rcell.lab_name.size]  %></td><% end %>
+        <td><%= rcell.res_name %></td>
+        <% if @report.kind %><td><%= rcell.kind %></td><% end %>
+        <% if @report.state %><td><%= rcell.state %></td><% end %>
+        <% if @report.code %><td><%= rcell.code %></td><% end %>
+        <% if @report.total %><td><%= rcell.total %></td><% end %>
+        <% if @report.unit %><td><%= rcell.unit %></td><% end %>
+        <% if @report.onu %><td><%= rcell.onu %></td><% end %>
+        <% if @report.blend %><td><%= rcell.blend %></td><% end %>
+      </tr>
+    <% end %>
+        
+  </tbody>
+</table>
+
+<table>
+  <thead>
+     <% if @report.total %><tr><p>Somatório total: <%=@report.reportcells.sum(:total)%></p> </tr><%end%>
+  </thead>
+</table>
+
+<%= link_to 'Editar', edit_report_path(@report),class: 'css_btn_class' %> |
+<%= link_to 'Voltar', reports_path,class: 'css_btn_class' %>

@@ -169,7 +169,6 @@ Then(/^o sistema gera uma notificação de rejeição da solicitação$/) do
   post '/notifications', param_not
   p_not = Notification.find_by(message: "rejeitaa")
   expect(p_not).to_not be nil 
-  p_not.fac_id = @request.user_id
   
 end
 
@@ -183,7 +182,6 @@ Then(/^o sistema gera uma notificação de aceitação da solicitação$/) do
   post '/notifications', param_not
   p_not = Notification.find_by(message: "aceitaaa")
   expect(p_not).to_not be nil 
-  p_not.fac_id = @request.user_id
   
 end
 
