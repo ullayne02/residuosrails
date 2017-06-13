@@ -19,7 +19,7 @@
         <td><%= laboratory.name %></td>
         <td><%= Department.find(laboratory.department_id).name %></td>
         <% if laboratory.user_id != nil %>
-          <td><%= Laboratory.find(laboratory.user_id).name %></td>
+          <td><%= User.find(laboratory.user_id).name %></td>
         <% else %>
           <td>Usuário não definido</td>
         <% end %>

@@ -60,6 +60,19 @@ class RequestsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def accept_request
+      lab = Laboratory.find_by(id: request_params[:laboratory_id])
+      lab.user_id = request_params[:user_id]
+      lab.save
+      req = Request.find_by(laboratory_id: lab.id)
+      req.destroy
+      redirect_to "/requests"
+  end
+    
+  def refuse_request
+      #req = Request.find_by(laboratory_id: request_params[:laboratory_id])
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -71,4 +84,6 @@ class RequestsController < ApplicationController
     def request_params
       params.require(:request).permit(:user_id, :laboratory_id)
     end
+    
+
 end

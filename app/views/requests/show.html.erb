@@ -2,12 +2,12 @@
 
 <p>
   <strong>User:</strong>
-  <%= @request.user %>
+  <%= @request.user.name %>
 </p>
 
 <p>
   <strong>Laboratory:</strong>
-  <%= @request.laboratory %>
+  <%= @request.laboratory.name %>
 </p>
 
 <%= link_to 'Edit', edit_request_path(@request) %> |

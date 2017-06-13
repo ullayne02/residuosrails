@@ -3,9 +3,7 @@ Given(/^que o facilitador de login "([^"]*)" não está associado a nenhum labor
     param_fac = {user: {name: fac_name, email: "uffl@cin.ufpe.br", password: "adc", kind: "fac"}}
     post '/users', param_fac
     p param_fac
-    p fac_name
     fac = User.find_by(name: fac_name)
-    p fac
     expect(fac).to_not be nil
     
 end
@@ -39,16 +37,13 @@ Then(/^o sistema faz a requisicao do facilitador "([^"]*)" ao laboratorio "([^"]
     param_req = {request: {user_id: p_user.id, laboratory_id: p_lab.id}}
     post '/requests', param_req
     p_req = Request.find_by(user_id: p_user.id)
-    p p_req
-    
+
 end
 
 Given(/^o adm "([^"]*)" esta asscoiado ao sistema$/) do |adm_name|
     param_adm = {user: {name: adm_name, email: "adm_name@ha.com", password: "blabla", kind: "adm"}}
     post '/users', param_adm
-    p param_adm
     adm = User.find_by(name: adm_name)
-    p param_adm
     expect(adm).to_not be nil
 end
 
@@ -59,7 +54,6 @@ Then(/^o sistema faz uma notificacao avisando que o facilitador "([^"]*)" fez um
     
     lab = Laboratory.find_by(name: lab_name)
     expect(lab).to_not be nil
-    p fac.id
     req = Request.find_by(user_id: fac.id)
     expect(req).to_not be nil
 
@@ -72,20 +66,107 @@ end
 
 Then(/^o sistema envia um email para "([^"]*)" avisando que existe uma nova requisicao$/) do |arg1|
 end
+########## CENARIOS DE GUI
 
-Given(/^eu estou logado como adm$/) do
-   
 
+Given(/^eu estou na pagina de requisicoes$/) do
+    visit '/requests'
 end
 
-When(/^eu entro na pagina "([^"]*)"$/) do |page|
+Given(/^existe uma requisicao pendente$/) do
+    visit 'users/new'
+    fill_in('user_name', :with => "joc")
+    fill_in('user_email', :with => "joc@cin.ufpe.br")
+    fill_in('user_password', :with => "111")
+    fill_in('user_kind', :with => "fac")
+    click_button 'Create User'
+    
+    visit 'departments/new'
+    fill_in('department_name', :with => "cin")
+    click_button 'Create Department'
+    
+    visit 'laboratories/new'
+    fill_in('laboratory_name', :with => "grad1")
+    page.select "cin", :from => 'laboratory_department_id'
+    click_button 'Create Laboratory'
+    
+    visit 'requests/new'
+    page.select "joc", :from => 'request_user_id'
+    page.select "grad1", :from => 'request_laboratory_id'
+    click_button 'Create Request'
+        expect(page).to have_content "joc" 
+    
+end
+
+When(/^eu clico em aceitar$/) do
+    #find(:xpath, "//tbody/tr/td/form.button_to", text: 'Aceitar').click
+    #find(:css, ".button_to[value='Aceitar']").click_button
+    #page.show have_css("#table", text: => 'Aceitar')
+    #find(:button, "//tbody/tr/td/form.button_to/Aceitar").click
+  #click_button('//tr/td/Aceitar')
+  find(:xpath,:text => 'Aceitar').click
+end
+
+Then(/^eu vejo que a requisicao nao aparece mais$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
 
+
+
+
+
+Given(/^eu estou logado como adminstrador$/) do
+   visit '/main_adm'
+end
+
+When(/^eu entro na pagina de solicitacoes de acesso$/) do
+    visit '/requests'
+end
+###### fazer uma pagina mostrando as solicitacoes pendentes 
 Then(/^eu aceito as solicitacoes pendentes$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+      click_button 'Aceitar'
+      
 end
 
-Then(/^eu aceito as solicitações pendentes$/) do
+
+
+Given(/^o facilitador "([^"]*)" esta associado ao laboratorio de "([^"]*)"$/) do |fac_name, lab_name|
+    visit 'users/new'
+    fill_in('user_name', :with => fac_name)
+    fill_in('user_email', :with => "joc@cin.ufpe.br")
+    fill_in('user_password', :with => "111")
+    fill_in('user_kind', :with => "fac")
+    click_button 'Create User'
+    
+    fac = User.find_by(name: fac_name)
+    visit 'departments/new'
+    fill_in('department_name', :with => "cin")
+    click_button 'Create Department'
+    
+    visit 'laboratories/new'
+    fill_in('laboratory_name', :with => lab_name)
+    page.select "cin", :from => 'laboratory_department_id'
+    click_button 'Create Laboratory'
+    
+    visit 'requests/new'
+    page.select fac_name, :from => 'request_user_id'
+    page.select lab_name, :from => 'request_laboratory_id'
+    click_button 'Create Request'
+    
+    click_button 'Aceitar'
+    ##clicar no botao aceitar 
+
+end
+
+When(/^o facilitador "([^"]*)" faz uma requisição de acesso para o laboratório "([^"]*)"$/) do |lab_name|
+    
+    visit 'laboratories/new'
+    fill_in('laboratory_name', :with => lab_name)
+    page.select "cin", :from => 'laboratory_department_id'
+    click_button 'Create Laboratory'
+    
+end
+
+Then(/^eu vejo uma mensagem informando que o facilitador "([^"]*)" ja esta associado a um laboratório$/) do |arg1|
   pending # Write code here that turns the phrase above into concrete actions
 end

@@ -20,14 +20,15 @@ Feature: Validação de Facilitador
 
   @d3
   Scenario: Administrador tem solicitações de acesso ao laboratório pendentes
-    Given eu estou logado como adm
-    When eu entro na pagina "request"
-    Then eu aceito as solicitacoes pendentes
+    Given eu estou na pagina de requisicoes
+    And existe uma requisicao pendente
+    When eu clico em aceitar 
+    Then eu vejo que a requisicao nao aparece mais 
 
   @d4
   Scenario: O facilitador já associado a um laboratório  solo e pede acesso a outro laboratório
     Given o facilitador "lar" esta associado ao laboratorio de "fisica"  
-    When eu faço uma requisição de acesso para o laboratório "química"
+    When o facilitador "lar" faz uma requisição de acesso para o laboratório "quimica"
     Then eu vejo uma mensagem informando que o facilitador "lar" ja esta associado a um laboratório
 
 
@@ -37,3 +38,4 @@ Feature: Validação de Facilitador
     When eu estou na "página de solicitações"
     Then eu aceito ou rejeito as solicitações pendentes dos facilitadores
 
+  

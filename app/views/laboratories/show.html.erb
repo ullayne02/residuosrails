@@ -7,12 +7,12 @@
 
 <p>
   <strong>Department:</strong>
-  <%= @laboratory.department %>
+  <%= @laboratory.department.name %>
 </p>
 
 <p>
   <strong>User:</strong>
-  <%= @laboratory.user %>
+  <%= @laboratory.user.name %>
 </p>
 
 <%= link_to 'Edit', edit_laboratory_path(@laboratory) %> |
