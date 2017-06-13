@@ -8,7 +8,9 @@ class Request < ApplicationRecord
       user = User.find_by(id: self.user_id)
       #p lab.name + " " + user.name 
       if lab != nil && user != nil then 
-         Notification.create(message: "Facilitador " + user.name + " ja esta associado a um laboratorio", request_id: self.id)
+         notif = Notification.create(message: "Facilitador " + user.name + " ja esta associado a um laboratorio", request_id: self.id)
+         notif.fac_id = 0
+         notif.save
       end
   end
   

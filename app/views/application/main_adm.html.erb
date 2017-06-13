@@ -60,7 +60,9 @@ tr:nth-child(odd) {
             </thead>
             <tbody>
                 <% Notification.all.each do |notif| %>
-                  <tr><td><%= notif.message %></td></tr>
+                  <% if notif.fac_id == 0 %>
+                    <tr><td><%= notif.message %></td></tr>
+                  <% end %>
                 <% end %>
             </tbody>
             

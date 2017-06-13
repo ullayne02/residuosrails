@@ -163,9 +163,10 @@ Then(/^eu vejo uma mensagem informando que o facilitador "([^"]*)" ja esta assoc
     
 end
 
-############################## Cenários de @d9 até @d12 #############################################################
+################################### Cenários de @d9 até @d12 #############################################################
 
 @request = nil
+@user = nil
 
 Given(/^que o facilitador de login "([^"]*)" está cadastrado no sistema$/) do |fac_name|
     param_fac = {user: {name: fac_name, email: "vrvs@cin.ufpe.br", password: "adc", kind: "fac"}}
@@ -223,26 +224,55 @@ Then(/^o sistema gera uma notificação de aceitação da solicitação$/) do
   
 end
 
-Given(/^o facilitador de login "([^"]*)" é um usuário do sistema$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
+Given(/^o facilitador de login "([^"]*)" é um usuário do sistema$/) do |fac_name|
+  visit 'users/new'
+    fill_in('user_name', :with => fac_name)
+    fill_in('user_email', :with => "joc@cin.ufpe.br")
+    fill_in('user_password', :with => "111")
+    fill_in('user_kind', :with => "fac")
+    click_button 'Create User'
 end
 
-Given(/^o facilitador "([^"]*)" solicitou acesso ao laboratório de "([^"]*)"$/) do |arg1, arg2|
-  pending # Write code here that turns the phrase above into concrete actions
+Given(/^o facilitador "([^"]*)" solicitou acesso ao laboratório de "([^"]*)"$/) do |fac_name, lab_name|
+    visit 'departments/new'
+    fill_in('department_name', :with => "cin")
+    click_button 'Create Department'
+    
+    visit 'laboratories/new'
+    fill_in('laboratory_name', :with => lab_name)
+    page.select "cin", :from => 'laboratory_department_id'
+    click_button 'Create Laboratory'
+    
+    visit 'requests/new'
+    page.select fac_name, :from => 'request_user_id'
+    page.select lab_name, :from => 'request_laboratory_id'
+    click_button 'Create Request'
+    expect(page).to have_content fac_name 
+    visit '/requests'
+    
+    @user = fac_name
 end
 
 When(/^o administrador clica no botão para rejeitar a solicitação$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  click_on('Rejeitar')
 end
 
 When(/^o administrador clica no botão para aceitar a solicitação$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  click_on('Aceitar')
 end
 
 Then(/^o facilitador vê uma notificação de aceitação de solicitação$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  visit '/main_fac'
+  
+  element = find("td", text: "O administrador aceitou sua solicitação " + @user)
+  
+  expect(element).to_not be nil
 end
 
 Then(/^o facilitador vê uma notificação de rejeição de solicitação$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  visit '/main_fac'
+  
+  element = find("td", text: "O administrador rejeitou sua solicitação " + @user)
+  
+  expect(element).to_not be nil
 end

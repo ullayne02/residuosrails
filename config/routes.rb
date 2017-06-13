@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   
   get '/accept_request', to: 'requests#accept_request'
   post '/accept_request', to: 'requests#accept_request'
-  #get '/refuse_request', to: 'requests#refuse_request'
+  get '/refuse_request', to: 'requests#refuse_request'
   post '/refuse_request', to: 'requests#refuse_request'
   
 end
