@@ -19,6 +19,7 @@ class LaboratoriesController < ApplicationController
 
   # GET /laboratories/1/edit
   def edit
+    
   end
 
   # POST /laboratories
@@ -42,6 +43,7 @@ class LaboratoriesController < ApplicationController
   def update
     respond_to do |format|
       if @laboratory.update(laboratory_params)
+        p "FAR WAY"
         format.html { redirect_to @laboratory, notice: 'Laboratory was successfully updated.' }
         format.json { render :show, status: :ok, location: @laboratory }
       else
@@ -70,5 +72,4 @@ class LaboratoriesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def laboratory_params
       params.require(:laboratory).permit(:name, :department_id, :user_id)
-    end
 end

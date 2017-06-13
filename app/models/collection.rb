@@ -84,6 +84,7 @@ class Collection < ApplicationRecord
       if residue.number_registers > @residue_often_registered_number[lab.name.parameterize.underscore.to_sym]
         @residue_often_registered_number[lab.name.parameterize.underscore.to_sym] = residue.number_registers
         @residue_often_registered_list[lab.name.parameterize.underscore.to_sym] = residue.name
+      elsif residue.number_registers == 0
       elsif residue.number_registers == @residue_often_registered_number[lab.name.parameterize.underscore.to_sym]
         @residue_often_registered_list[lab.name.parameterize.underscore.to_sym] += ", "+residue.name
       end
