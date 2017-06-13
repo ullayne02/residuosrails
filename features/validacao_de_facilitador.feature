@@ -11,7 +11,7 @@ Feature: Validação de Facilitador
     Then o sistema faz a requisicao do facilitador "joc" ao laboratorio "quimica"
 
   @d2
-  Scenario: O administrador recebe um email de aviso de nova requisição
+  Scenario: Sistema gera uma notificacao para cada nova requisição
     Given o adm "joc" esta asscoiado ao sistema
     When o facilitador "miriane" faz uma requisicao de acesso para o laboratorio "quimica"
     And o sistema verifica se o facilitador "miriane" está associado a um laboratório.    
@@ -31,11 +31,32 @@ Feature: Validação de Facilitador
     When o facilitador "lar" faz uma requisição de acesso para o laboratório "quimica"
     Then eu vejo uma mensagem informando que o facilitador "lar" ja esta associado a um laboratório
 
-
   @d5
-  Scenario: O administrador aceita ou rejeita uma requisição a um laboratório
-    Given estou logado como "admin"
-    When eu estou na "página de solicitações"
-    Then eu aceito ou rejeito as solicitações pendentes dos facilitadores
+  Scenario: Um administrador pede acesso a um laboratorio
+    Given o administrador "joc" esta associado ao sistema
+    And o laboratorio "quimica" esta associado ao sistema
+    When o administrador "joc" pede acesso ao laboratório "quimica"
+    Then o sistema gera uma notificacao avisando que nao pode pedir acesso a laboratorio 
 
+ @d6
+ Scenario: Um administrador pede acesso a um laboratorio
+    Given o administrador "joc" esta associado ao sistema
+    And o laboratorio "quimica" esta associado ao sistema
+    When o administrador "joc" pede acesso ao laboratório "quimica"
+    Then o sistema gera uma notificacao avisando que nao pode pedir acesso a laboratorio 
+    
+  @d7 
+  Scenario: O administrador ver as notificacoes de novas requisicoes 
+    Given o adm "joc" esta associado ao sistema
+    When o facilitador "miriane" faz uma requisicao de acesso para o laboratorio "quimica"
+    And o sistema verifica se o facilitador "miriane" está associado a um laboratório.    
+    And o sistema faz a requisicao do facilitador "miriane" ao laboratorio "quimica"
+    Then o mostra uma notificacao avisando que o facilitador "miriane" fez uma requisicao para o laboratorio "quimica"
   
+  @d8 
+  Scenario: O facilitador já associado a um laboratório  solo e pede acesso a outro laboratório
+    Given o facilitador "lar" esta associado ao laboratorio de "fisica"  
+    When o facilitador "lar" faz uma requisição de acesso para o laboratório "quimica"
+    Then o sistema gera uma notificacao informando que o facilitador "lar" ja esta associado a um laboratório
+   
+   
