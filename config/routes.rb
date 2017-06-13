@@ -18,6 +18,11 @@ Rails.application.routes.draw do
   get '/main_adm', to: 'application#main_adm'
   get '/genarate_report', to: 'application#genarate_report'
   get '/statistic', to: 'application#statistic'
-  get '/request', to: 'application#request'
+  get '/requests', to: 'application#request'
   get '/account', to: 'application#account'
+  
+  get '/accept_request', to: 'requests#accept_request'
+  post '/accept_request', to: 'requests#accept_request'
+  post '/refuse_request', to: 'requests#refuse_request'
+  
 end

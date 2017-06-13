@@ -1,3 +1,23 @@
 // Place all the styles related to the laboratories controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.title{                                 //Titulo das paginas
+    
+     display: inline-block;
+     width: 100%;
+     background-color: #4682B4;
+     height: 45px;
+}
+
+h1 {
+    color: 	#FFFFFF;
+    font-family: verdana;
+    font-size: 20px;
+   
+}
+.lb_list  select{
+    width: 300px;
+}
+.lb_fac input ,.lb_name input{
+    width: 300px;
+}

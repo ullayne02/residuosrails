@@ -1,12 +1,13 @@
 <p id="notice"><%= notice %></p>
-
-<h1>Registers</h1>
+<div class = "title">
+  <h1>Registros</h1>
+</div>
 
 <table>
   <thead>
     <tr>
-      <th>Weight</th>
-      <th>Residue</th>
+      <th>Peso</th>
+      <th>Resíduo</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -26,4 +27,5 @@
 
 <br>
 
-<%= link_to 'New Register', new_register_path %>
+<%= link_to 'Novo Registro', new_register_path,class: 'css_btn_class' %>
+<%= link_to 'Voltar', main_adm_path,class: 'css_btn_class' %>

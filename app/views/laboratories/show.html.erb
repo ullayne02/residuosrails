@@ -12,7 +12,9 @@
 
 <p>
   <strong>User:</strong>
-  <%= @laboratory.user %>
+  <% if @laboratory.user != nil %>
+  <%= @laboratory.user.name %>
+  <% end %>
 </p>
 
 <%= link_to 'Edit', edit_laboratory_path(@laboratory) %> |
