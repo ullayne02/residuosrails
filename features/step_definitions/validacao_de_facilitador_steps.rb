@@ -5,7 +5,7 @@ Given(/^que o facilitador de login "([^"]*)" não está associado a nenhum labor
     expect(@user).to_not be nil
 
 end
-Given(/^o laboratorio "([^"]*)" nao possui nenhum facilitadro associado a ele$/) do |lab_name|
+Given(/^o laboratorio "([^"]*)" nao possui nenhum facilitador associado a ele$/) do |lab_name|
     
     dep_name = "cin"
    
@@ -87,6 +87,8 @@ Given(/^existe uma requisicao pendente$/) do
     create_department_gui("cin")
     create_laboratory_gui("grad1", "cin")
     create_request_gui("lar", "grad1")
+    @req = {user_name: "lar", lab_name: "grad1"}
+
     
 end
 
@@ -112,15 +114,8 @@ end
 
 When(/^o facilitador "([^"]*)" faz uma requisição de acesso para o laboratório "([^"]*)"$/) do |fac_name, lab_name|
     
-    visit 'laboratories/new'
-    fill_in('laboratory_name', :with => lab_name)
-    page.select "cin", :from => 'laboratory_department_id'
-    click_button 'Create Laboratory'
-    
-    visit 'requests/new'
-    page.select fac_name, :from => 'request_user_id'
-    page.select lab_name, :from => 'request_laboratory_id'
-    click_button 'Create Request'
+    create_laboratory_gui(lab_name, "cin")
+    create_request_gui(fac_name,lab_name)
     
 end
 
@@ -136,17 +131,19 @@ end
 ###CONTROLADOR
 
 Given(/^o administrador "([^"]*)" esta associado ao sistema$/) do |adm_name|
-    param_adm = {user: {name: adm_name, email: "uffl@cin.ufpe.br", password: "adc", kind: "adm"}}
-    post '/users', param_adm
-    adm = User.find_by(name: adm_name)
-    expect(adm).to_not be nil
+    @user = create_user({user: {name: adm_name, email: "aaa@abc.com", password: "123", kind: "adm"}})
+    expect(@user).to_not be nil
 end
 
 Given(/^o laboratorio "([^"]*)" esta associado ao sistema$/) do |lab_name|
-    param_lab = {laboratory: {name: lab_name, department: nil}}
-    post '/laboratories', param_lab
-    p_lab = Laboratory.find_by(name: lab_name)
-    expect(p_lab).to_not be nil
+    
+    dep_name = "cin"
+   
+    dep = create_department({department: {name: dep_name}})
+    expect(dep).to_not be nil
+    
+    lab = create_laboratory({laboratory: {name: lab_name, department_id: dep.id}})
+    expect(lab).to_not be nil
 end
 
 @req = nil 
@@ -155,21 +152,19 @@ When(/^o administrador "([^"]*)" pede acesso ao laboratório "([^"]*)"$/) do |ad
     adm = User.find_by(name: adm_name)
     lab = Laboratory.find_by(name: lab_name)
     
-    param_req = {request: {user_id: adm.id, laboratory_id: lab.id}}
-    post '/requests', param_req
-    @req = Request.find_by(user_id: adm.id)
-    
+    @req = create_request({request: {user_id: adm.id, laboratory_id: lab.id}})
+    expect(@req).to_not be nil
     
 end
 
-Then(/^o sistema gera uma notificacao avisando que o administrador nao pode pedir acesso a laboratorio$/) do
-  
-    param_not = {notification: {message: "Um administrador nao pode se associar a um laboratorio",request_id: @req.id}}
-    post '/notifications', param_not
-    noti = Notification.find_by(request_id: @req.id)
+Then(/^o sistema mostra uma notificacao avisando que um administrador nao pode pedir acesso a laboratorio$/) do
+    
+    noti = create_notification({notification: {message:"Um administrador nao pode se associar a um laboratorio", request_id: @req.id}})
     expect(noti).to_not be nil
     
 end
+
+
 
 #####Gui
 
@@ -215,23 +210,22 @@ Then(/^o mostra uma notificacao avisando que o facilitador "([^"]*)" fez uma req
 end
 
 Given(/^o facilitador "([^"]*)" esta associado ao laboratorio "([^"]*)"$/) do |fac_name, lab_name|
-    param_fac = {user: {name: fac_name, email: "uffl@cin.ufpe.br", password: "adc", kind: "fac"}}
-    post '/users', param_fac
-    p param_fac
-    fac = User.find_by(name: fac_name)
+    fac = create_user({user: {name: fac_name, email: "abc@abc.com", password: "123", kind: "fac"}})
     expect(fac).to_not be nil
     
-    param_lab = {laboratory: {name: lab_name, department: nil}}
-    post '/laboratories', param_lab
-    p_lab = Laboratory.find_by(name: lab_name)
-    expect(p_lab).to_not be nil
+    dep_name = "cin"
+   
+    dep = create_department({department: {name: dep_name}})
+    expect(dep).to_not be nil
     
-    param_req = {request: {user_id: fac.id, laboratory_id: p_lab.id}}
-    post '/requests', param_req
-    p_req = Request.find_by(user_id: fac.id)
-    #tirar de comentario quando de merge com jonatas
-    post 'accept_request', :request => p_req.id
+    lab = create_laboratory({laboratory: {name: lab_name, department_id: dep.id}})
+    expect(lab).to_not be nil
     
+    req = create_request({request: {user_id: adm.id, laboratory_id: lab.id}})
+    expect(req).to_not be nil 
+    post 'accept_request', :request => req.id
+
+
 end
 
 @request = nil 
@@ -313,6 +307,7 @@ def create_user_gui(user_name, user_email, password, kind)
 end
 
 def create_request_gui(fac_name, lab_name)
+    
     visit 'requests/new'
     req = {user_name: fac_name, lab_name: lab_name}
     page.select fac_name, :from => 'request_user_id'
