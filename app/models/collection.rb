@@ -66,14 +66,18 @@ class Collection < ApplicationRecord
         notif = Notification.find_by(collection_id: col.id)
         notif.destroy
       end
-      Notification.create(message: "Passou do peso limite, deve fazer uma licitação", collection_id: col.id)
+      notif = Notification.create(message: "Passou do peso limite, deve fazer uma licitação", collection_id: col.id)
+      notif.fac_id = 0;
+      notifi.save
       
     elsif total_weight > (col.max_value*col.porcent)
       if(col.notification != nil)
         notif = Notification.find_by(collection_id: col.id)
         notif.destroy
       end
-      Notification.create(message: "O peso está próximo do peso mínimo para fazer uma licitação", collection_id: col.id)
+      notif = Notification.create(message: "O peso está próximo do peso mínimo para fazer uma licitação", collection_id: col.id)
+      notif.fac_id = 0;
+      notifi.save
     end
     
   end
