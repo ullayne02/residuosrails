@@ -10,6 +10,7 @@
       </ul>
     </div>
   <% end %>
+  
 
   <div class="field">
     <%= f.label :user_id, "Usuario: " %>
@@ -20,7 +21,7 @@
     <%= f.label :laboratory_id, "Usuario: " %>
     <%= f.collection_select(:laboratory_id, Laboratory.all.order(:name), :id, :name) %>
   </div>
-
+  
   <div class="actions">
     <%= f.submit %>
   </div>

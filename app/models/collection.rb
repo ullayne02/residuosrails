@@ -5,7 +5,10 @@ class Collection < ApplicationRecord
   
   validates :max_value, presence: true
   
-  attr_accessor :mean, :miss_days, :miss_weight, :solido_organico, :solido_inorganico, :liquido_organico, :liquido_inorganico, :liquido_inflamavel, :outros
+  
+  
+  attr_accessor :porcent, :mean, :miss_days, :miss_weight, :solido_organico, :solido_inorganico, :liquido_organico, :liquido_inorganico, :liquido_inflamavel, :outros
+  
   
   def generate_prediction
     collection = Collection.last
@@ -47,5 +50,31 @@ class Collection < ApplicationRecord
         @outros += register.weight
       end
     end
+  end
+  
+  def generate_notification
+    total_weight = 0
+    col = Collection.last
+    col.porcent = 0.93333333
+    
+    Residue.all.each do |res|
+      total_weight += res.registers.where(created_at: [col.created_at..Time.now]).sum(:weight)
+    end
+    
+    if total_weight > col.max_value
+      if(col.notification != nil)
+        notif = Notification.find_by(collection_id: col.id)
+        notif.destroy
+      end
+      Notification.create(message: "Passou do peso limite, deve fazer uma licitação", collection_id: col.id)
+      
+    elsif total_weight > (col.max_value*col.porcent)
+      if(col.notification != nil)
+        notif = Notification.find_by(collection_id: col.id)
+        notif.destroy
+      end
+      Notification.create(message: "O peso está próximo do peso mínimo para fazer uma licitação", collection_id: col.id)
+    end
+    
   end
 end

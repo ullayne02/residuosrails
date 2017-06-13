@@ -27,14 +27,14 @@ Feature: Sistema de Notificação
     
     @a3
     Scenario: Ver a notificação que a quantidade de resíduos está perto do peso mínimo para fazer a licitação
-        Given que a soma dos pesos dos resíduos cadastrados é "7100"kg
-        And o peso próximo ao limitante do sistema é "7000"kg
+        Given o peso próximo ao limitante do sistema é "7000"kg
+        And que a soma dos pesos dos resíduos cadastrados é "7100"kg
         When eu entro no sistema
         Then eu vejo uma notificação de alerta que o peso dos resíduos do departamento está se aproximando do peso mínimo para fazer a licitação
     
     @a4
     Scenario: Ver a notificação que a quantidade de resíduos é maior ou igual do peso mínimo para fazer a licitação
-        Given que a soma dos pesos dos resíduos cadastrados é "7600"kg
-        And o limitante do sistema é "7500"kg
+        Given o limitante do sistema é "7500"kg
+        And que a soma dos pesos dos resíduos cadastrados é "7600"kg
         When eu entro no sistema
         Then eu vejo uma notificação de requisição de que o peso dos resíduos do departamento está igual ou maior que o mínimo para fazer a licitação.

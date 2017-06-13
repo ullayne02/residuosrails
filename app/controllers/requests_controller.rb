@@ -62,13 +62,16 @@ class RequestsController < ApplicationController
   end
   
   def accept_request
-      lab = Laboratory.find_by(id: request_params[:laboratory_id])
-      lab.user_id = request_params[:user_id]
+    @request = Request.find(params[:request])
+      lab = Laboratory.find_by(id: @request.laboratory_id)
+      lab.user_id = @request.user_id
       lab.save
       req = Request.find_by(laboratory_id: lab.id)
       req.destroy
       redirect_to "/requests"
   end
+    
+  
     
   def refuse_request
       #req = Request.find_by(laboratory_id: request_params[:laboratory_id])

@@ -68,6 +68,7 @@ Then(/^o sistema envia um email para "([^"]*)" avisando que existe uma nova requ
 end
 ########## CENARIOS DE GUI
 
+@req = nil
 
 Given(/^eu estou na pagina de requisicoes$/) do
     visit '/requests'
@@ -91,24 +92,22 @@ Given(/^existe uma requisicao pendente$/) do
     click_button 'Create Laboratory'
     
     visit 'requests/new'
+    @req = {user_name: "joc", lab_name: "grad1"}
     page.select "joc", :from => 'request_user_id'
     page.select "grad1", :from => 'request_laboratory_id'
     click_button 'Create Request'
-        expect(page).to have_content "joc" 
-    
+    expect(page).to have_content "joc" 
+    visit '/requests'
+
 end
 
 When(/^eu clico em aceitar$/) do
-    #find(:xpath, "//tbody/tr/td/form.button_to", text: 'Aceitar').click
-    #find(:css, ".button_to[value='Aceitar']").click_button
-    #page.show have_css("#table", text: => 'Aceitar')
-    #find(:button, "//tbody/tr/td/form.button_to/Aceitar").click
-  #click_button('//tr/td/Aceitar')
-  find(:xpath,:text => 'Aceitar').click
+    click_on('Aceitar')   
+
 end
 
 Then(/^eu vejo que a requisicao nao aparece mais$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+    expect(page).to_not have_content @req[:user_name]
 end
 
 
@@ -124,8 +123,7 @@ When(/^eu entro na pagina de solicitacoes de acesso$/) do
 end
 ###### fazer uma pagina mostrando as solicitacoes pendentes 
 Then(/^eu aceito as solicitacoes pendentes$/) do
-      click_button 'Aceitar'
-      
+    element = find("td", text: "Aceitar")      
 end
 
 
@@ -153,20 +151,30 @@ Given(/^o facilitador "([^"]*)" esta associado ao laboratorio de "([^"]*)"$/) do
     page.select lab_name, :from => 'request_laboratory_id'
     click_button 'Create Request'
     
-    click_button 'Aceitar'
+    visit '/requests'
+    click_on('Aceitar')   
+
     ##clicar no botao aceitar 
 
 end
 
-When(/^o facilitador "([^"]*)" faz uma requisição de acesso para o laboratório "([^"]*)"$/) do |lab_name|
+When(/^o facilitador "([^"]*)" faz uma requisição de acesso para o laboratório "([^"]*)"$/) do |fac_name, lab_name|
     
     visit 'laboratories/new'
     fill_in('laboratory_name', :with => lab_name)
     page.select "cin", :from => 'laboratory_department_id'
     click_button 'Create Laboratory'
     
+    visit 'requests/new'
+    page.select fac_name, :from => 'request_user_id'
+    page.select lab_name, :from => 'request_laboratory_id'
+    click_button 'Create Request'
+    
 end
 
-Then(/^eu vejo uma mensagem informando que o facilitador "([^"]*)" ja esta associado a um laboratório$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
+Then(/^eu vejo uma mensagem informando que o facilitador "([^"]*)" ja esta associado a um laboratório$/) do |fac_name|
+    visit '/main_adm'
+    element = find("td", text:"Facilitador " + fac_name + " ja esta associado a um laboratorio")
+    expect(element).to_not be nil
+    
 end

@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   get '/requests', to: 'application#request'
   get '/account', to: 'application#account'
   
-  post '/accept_request', to: 'requests#accept_request'
+  get '/accept_request', to: 'requests#accept_request'
   post '/refuse_request', to: 'requests#refuse_request'
   
 end

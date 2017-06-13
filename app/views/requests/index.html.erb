@@ -20,9 +20,9 @@
         <td><%= link_to 'Show', request %></td>
         <td><%= link_to 'Edit', edit_request_path(request) %></td>
         <td><%= link_to 'Destroy', request, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <td><%= button_to 'Aceitar', 'accept_request', method: :post, params: {request: {user_id: request.user.id, laboratory_id: request.laboratory.id}} %></td>
-        <td><%= button_to 'Recusar', 'refuse_request', method: :post, params: {user_id: request.user.id, laboratory_id: request.laboratory.id} %></td>
-  <% end %>
+        <td><%= link_to "Aceitar", {:controller => "requests", :action => "accept_request", :request => request.id} %></td>
+        
+        <% end %>
       </tr>
     <% end %>
   </tbody>
