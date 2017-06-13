@@ -1,0 +1,21 @@
+// Place all the styles related to the residues controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.title{                                 //Titulo das paginas
+    
+     display: inline-block;
+     width: 100%;
+     background-color: #4682B4;
+     height: 45px;
+}
+
+h1 {
+    color: 	#FFFFFF;
+    font-family: verdana;
+    font-size: 20px;
+   
+}
+
+.res_lab select,.res_kind select,.res_onu input, .res_name input, .res_blend input, .res_code input, .res_colelection input{
+   width: 300px;
+}

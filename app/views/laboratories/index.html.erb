@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+<div class = "title">
+  <h1>Laboratórios</h1>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Departamento</th>
+      <th>Facilitador</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @laboratories.each do |laboratory| %>
+      <tr>
+        <td><%= laboratory.name %></td>
+        <td><%= Department.find(laboratory.department_id).name %></td>
+        <% if laboratory.user_id != nil %>
+          <td><%= User.find(laboratory.user_id).name %></td>
+        <% else %>
+          <td>Usuário não definido</td>
+        <% end %>
+        <td><%= link_to 'Show', laboratory %></td>
+        <td><%= link_to 'Edit', edit_laboratory_path(laboratory) %></td>
+        <td><%= link_to 'Destroy', laboratory, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<%= link_to 'Voltar',main_adm_path, class: 'css_btn_class' %>
+<%= link_to 'Novo Laboratório', new_laboratory_path, class: 'css_btn_class' %>
