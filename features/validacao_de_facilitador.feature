@@ -6,7 +6,7 @@ Feature: Validação de Facilitador
   @d1
  Scenario: O facilitador solicita  acesso ao laboratório e o facilitador não está vinculado a nenhum laboratório
     Given que o facilitador de login "joc" não está associado a nenhum laboratório
-    And o laboratorio "quimica" nao possui nenhum facilitadro associado a ele 
+    And o laboratorio "quimica" nao possui nenhum facilitador associado a ele 
     When o sistema verifica se o facilitador "joc" está associado a um laboratório.
     Then o sistema faz a requisicao do facilitador "joc" ao laboratorio "quimica"
 
