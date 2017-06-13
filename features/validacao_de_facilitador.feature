@@ -6,8 +6,8 @@ Feature: Validação de Facilitador
   @d1
  Scenario: O facilitador solicita  acesso ao laboratório e o facilitador não está vinculado a nenhum laboratório
     Given que o facilitador de login "joc" não está associado a nenhum laboratório
-    When o facilitador "joc" faz uma requisicao de acesso para o laboratorio "quimica"
-    And o sistema verifica se o facilitador "joc" está associado a um laboratório.
+    And o laboratorio "quimica" nao possui nenhum facilitadro associado a ele 
+    When o sistema verifica se o facilitador "joc" está associado a um laboratório.
     Then o sistema faz a requisicao do facilitador "joc" ao laboratorio "quimica"
 
   @d2
@@ -43,20 +43,19 @@ Feature: Validação de Facilitador
     Given o administrador "joc" esta associado ao sistema
     And o laboratorio "quimica" esta associado ao sistema
     When o administrador "joc" pede acesso ao laboratório "quimica"
-    Then o sistema gera uma notificacao avisando que nao pode pedir acesso a laboratorio 
+    Then o sistema mostra uma notificacao avisando que um administrador nao pode pedir acesso a laboratorio 
     
   @d7 
-  Scenario: O administrador ver as notificacoes de novas requisicoes 
-    Given o adm "joc" esta associado ao sistema
-    When o facilitador "miriane" faz uma requisicao de acesso para o laboratorio "quimica"
-    And o sistema verifica se o facilitador "miriane" está associado a um laboratório.    
-    And o sistema faz a requisicao do facilitador "miriane" ao laboratorio "quimica"
-    Then o mostra uma notificacao avisando que o facilitador "miriane" fez uma requisicao para o laboratorio "quimica"
+  Scenario: O administrador ver as notificacoes de novas requisicoes de acesso a laboratorio 
+    Given estou na pagina de administrador 
+    When eu estou na pagina de requisicoes 
+    And eu vejo que o facilitador "miriane" fez uma requisicao ao laboratorio "fisica"
+    Then o mostra uma notificacao avisando que o facilitador "miriane" fez uma requisicao para o laboratorio "fisica"
   
   @d8 
   Scenario: O facilitador já associado a um laboratório  solo e pede acesso a outro laboratório
-    Given o facilitador "lar" esta associado ao laboratorio de "fisica"  
-    When o facilitador "lar" faz uma requisição de acesso para o laboratório "quimica"
-    Then o sistema gera uma notificacao informando que o facilitador "lar" ja esta associado a um laboratório
+    Given o facilitador "lar" esta associado ao laboratorio "fisica"
+    When o facilitador "lar" faz requisicao de acesso ao laboratorio "fisica"
+    Then o sistema gera uma notificacao informando que o facilitador "lar" nao pode se associar a mais de um laboratorio
    
    
