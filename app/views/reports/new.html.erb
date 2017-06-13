@@ -1,7 +1,30 @@
-<div class = "title">
-    <h1>Geração de Relatórios</h1>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="/main_adm"><strong>SGRQ</strong> - Resíduos Químicos</a>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li><a href="/departments/new">Criações</a></li>
+                    <li class="active"><a href="/reports/new">Relatórios</a></li>
+                    <li><a href="/statistic">Estatístico</a></li>
+                    <li><a href="/registers/new">Registro</a></li>
+                    <li><a href="/request">Requisições</a></li>
+                    <li><a href="/account">Perfil</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 
-<%= render 'form', report: @report %>
+<div class="container">
+<br><br>
+<h1>Geração de Relatórios</h1>
 
-<%= link_to 'Voltar', reports_path,class: 'css_btn_class' %>
+<%= render 'form', report: @report %>
+<hr>
+</div>

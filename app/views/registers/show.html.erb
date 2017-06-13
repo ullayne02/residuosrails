@@ -1,7 +1,8 @@
+<div class="container">
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Weight:</strong>
+  <strong>Peso:</strong>
   <%= @register.weight %>
 </p>
 
@@ -9,6 +10,4 @@
   <strong>Residue:</strong>
   <%= @register.residue.name %>
 </p>
-
-<%= link_to 'Editar', edit_register_path(@register),class: 'css_btn_class' %> |
-<%= link_to 'Voltar', registers_path,class: 'css_btn_class' %>
+</div>

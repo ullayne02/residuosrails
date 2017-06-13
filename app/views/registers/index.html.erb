@@ -1,9 +1,10 @@
-<p id="notice"><%= notice %></p>
-<div class = "title">
-  <h1>Registros</h1>
-</div>
+<div class="container">
 
-<table>
+<p id="notice"><%= notice %></p>
+
+<h1>Registros</h1>
+
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Peso</th>
@@ -17,9 +18,8 @@
       <tr>
         <td><%= register.weight %></td>
         <td><%= Residue.find(register.residue_id).name %></td>
-        <td><%= link_to 'Show', register %></td>
-        <td><%= link_to 'Edit', edit_register_path(register) %></td>
-        <td><%= link_to 'Destroy', register, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', register,class: 'btn' %></td>
+        <td><%= link_to 'Destroy', register, method: :delete, data: { confirm: 'Are you sure?' },class: 'btn' %></td>
       </tr>
     <% end %>
   </tbody>
@@ -27,5 +27,6 @@
 
 <br>
 
-<%= link_to 'Novo Registro', new_register_path,class: 'css_btn_class' %>
-<%= link_to 'Voltar', main_adm_path,class: 'css_btn_class' %>
+<%= link_to 'Novo Registro', new_register_path,class: 'btn' %>
+<%= link_to 'Voltar', main_adm_path,class: 'btn'%>
+</div>

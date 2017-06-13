@@ -1,6 +1,32 @@
-<h1>Estatistica</h1>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="/main_adm"><strong>SGRQ</strong> - Resíduos Químicos</a>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li><a href="/departments/new">Criações</a></li>
+                    <li><a href="/reports/new">Relatórios</a></li>
+                    <li class="active"><a href="/statistic">Estatístico</a></li>
+                    <li><a href="/registers/new">Registro</a></li>
+                    <li><a href="/request">Requisições</a></li>
+                    <li><a href="/account">Perfil</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 
-<table>
+<div class="container">
+<br><br>
+<h1>Estatística</h1>
+
+
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Resíduos Cadastrados</th>
@@ -10,41 +36,53 @@
           <th>Peso</th>
           <th>Laboratorio</th>
           <th>Departamento</th>
+          <th>Registros</th>
           <th colspan="3"></th>
         </tr>
     </tr>
   </thead>
 
   <tbody>
-    <% if !@residues.empty? %>
-      <% @residues.each do |residue| %>
+    <% if !Residue.all.empty? %>
+      <% Residue.all.each do |residue| %>
         <tr>
           <td><%= residue.name %></td>
           <td><%= residue.kind %></td>
           <td><%= residue.weight %></td>
           <td><%= Laboratory.find(residue.laboratory_id).name%></td>
-          <td><%= Department.find(residue.laboratory_id).name %></td>
+          <td><%= Department.find(Laboratory.find(residue.laboratory_id).department_id).name %></td>
+          <td><%= residue.number_registers %></td>
         </tr>
       <% end %>
     <% else %>
       <tr>
-        <td>Lista vazia</td>
-      <>
+      </tr>
     <% end %>
   </tbody>
 </table>
 <br>
-
 <body>
-  <% if !@residues.empty? %>
-    <a href="/types">
-      <button>Gerar Total de Resíduos Acumulados por Tipo</button>
-    </a>
+  <% if Residue.all.empty? %>
+    <form name='form1'>
+      
+      <input onclick='input()' type='button' value='Gerar Previsão de Notificação de Coleta' id='button', class: btn><br><br>
+      <input onclick='input()' type='button' value='Gerar Total de Resíduos Acumulados por Tipo' id='button'><br><br>
+      <input onclick='input()' type='button' value='Gerar Total de Resíduos Acumulados por Tipo em Porcentagem' id='button'><br><br>
+      <input onclick='input()' type='button' value='Gerar Resíduo Mais Frequentemente Cadastrado por Laboratorio' id='button'><br><br>
+      <div><textarea name='area' rows="2" cols="550" readonly></textarea></div>
+    </form>
   <% else %>
-    <button type="button" onclick="alert('Não possui residuos cadastrados')">Gerar Total de Resíduos Acumulados por Tipo</button>
+    <%= button_to 'Gerar Previsão de Notificação de Coleta', '/statistic', method: :get %>
+    <%= button_to 'Gerar Total de Resíduos Acumulados por Tipo', '/types', method: :get %>
+    <%= button_to 'Gerar Total de Resíduos Acumulados por Tipo em Porcentagem', '/percent', method: :get %>
+    <%= button_to 'Gerar Resíduo Mais Frequentemente Cadastrado por Laboratorio', '/often', method: :get %>
   <% end %>
 </body>
-
-<body>
-   <button type="button" onclick="alert('Hello world!')">Gerar Previsão de Notificação de Coleta</button>
-</body>
+<hr>
+<script> 
+  function input(){
+    var text = "Não existe resíduos cadastrados";
+    document.forms.form1.area.value = text;
+  }
+</script>
+</div>

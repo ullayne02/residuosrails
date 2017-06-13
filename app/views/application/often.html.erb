@@ -11,8 +11,8 @@
                 <ul class="nav">
                     <li><a href="/departments/new">Criações</a></li>
                     <li><a href="/reports/new">Relatórios</a></li>
-                    <li><a href="/statistic">Estatístico</a></li>
-                    <li class="active"><a href="/registers/new">Registro</a></li>
+                    <li class="active"><a href="/statistic">Estatístico</a></li>
+                    <li><a href="/registers/new">Registro</a></li>
                     <li><a href="/request">Requisições</a></li>
                     <li><a href="/account">Perfil</a></li>
                 </ul>
@@ -21,9 +21,32 @@
     </div>
 </div>
 
-<br><br>
 <div class="container">
-<h1>Regristro de Peso</h1>
-<%= render 'form', register: @register %>
+<br><br>
+<h1>Resíduos mais Cadastrados</h1>
+<% @collection = Collection.last %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Resíduo Mais Frequentemente Cadastrado por Laboratorio</th>
+      <tr>
+          <th>Laboratorio</th>
+          <th>Resíduos</th>
+          <th colspan="3"></th>
+        </tr>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @collection.residue_often_registered %>
+    <% Laboratory.all.each do |laboratory| %>
+      <tr>
+        <td><%= laboratory.name %></td>
+        <td><%= @collection.residue_often_registered_list[laboratory.name.parameterize.underscore.to_sym] %></td/>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
 <hr>
 </div>

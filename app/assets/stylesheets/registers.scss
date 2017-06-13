@@ -1,57 +1,10 @@
 // Place all the styles related to the registers controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.title{                                 //Titulo das paginas
-    
-     display: inline-block;
-     width: 100%;
-     background-color: #4682B4;
-     height: 45px;
-}
-.p {
-    font-family: verdana;
-    font-size: 20px;
-    color: #4682B4;
-}
-.actions input{
-    
-    font-size:13px;
-	font-family:Arial;
-	font-weight:normal;
-	padding: 10px;
-	text-decoration:none;
-	background:-moz-linear-gradient( center top, #63b8ee 5%, #4682b4 100% );
-	background:-ms-linear-gradient( top, #63b8ee 5%, #4682b4 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#63b8ee', endColorstr='#4682b4');
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(5%, #63b8ee), color-stop(100%, #4682b4) );
-	background-color:#63b8ee;
-	color:#14396a;
-	display:inline-block;
-	text-shadow:1px -2px 0px #7cacde;
- 	-webkit-box-shadow:inset 1px 1px 0px 0px #bee2f9;
- 	-moz-box-shadow:inset 1px 1px 0px 0px #bee2f9;
- 	box-shadow:inset 1px 1px 0px 0px #bee2f9;
- 	
-}
-.actions input:hover {
-	background:-moz-linear-gradient( center top, #4682b4 5%, #63b8ee 100% );
-	background:-ms-linear-gradient( top, #4682b4 5%, #63b8ee 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4682b4', endColorstr='#63b8ee');
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(5%, #4682b4), color-stop(100%, #63b8ee) );
-	background-color:#4682b4;
-}
-.actions input:active {
-	position:relative;
-	top:1px;
-}
 
-h1 {
-    color: 	#FFFFFF;
-    font-family: verdana;
-    font-size: 20px;
-   
+#register_weight{
+    width: 96%;
 }
-.reg_res select, .reg_weight input{
-	width: 300px;
+#register_residue_id{
+    width: 100%;
 }
-

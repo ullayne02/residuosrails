@@ -1,31 +1,52 @@
-<p id="notice"><%= notice %></p>
-<div class = "title">
-<h1>
-  <strong>Relatório de </strong>
-  <%if @report.generate_by == 1 %>
-      departamentos
-      <%end%>
-  <% if @report.generate_by == 2 %>
-   laboratórios
-      <%end%>
-  <% if @report.generate_by == 3 %>
-      resíduos
-      <%end%>
-</h1>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="/main_adm"><strong>SGRQ</strong> - Resíduos Químicos</a>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li><a href="/departments/new">Criações</a></li>
+                    <li class="active"><a href="/reports/new">Relatórios</a></li>
+                    <li><a href="/statistic">Estatístico</a></li>
+                    <li><a href="/registers/new">Registro</a></li>
+                    <li><a href="/request">Requisições</a></li>
+                    <li><a href="/account">Perfil</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 
-<p>
+<br><br>
+<div class="container">
+<h1>
+  <strong>Relatório de </strong>
+  <% if @report.generate_by == 0 %>coleta<%end%>
+  <%if @report.generate_by == 1 %>departamentos<%end%>
+  <% if @report.generate_by == 2 %>laboratórios<%end%>
+  <% if @report.generate_by == 3 %>resíduos<%end%>
+</h1>
+
+<p id="notice"><%= notice %></p>
+
   <strong>Data inicial:</strong>
   <%= @report.begin_dt %>
-</p>
-
-<p>
+  
+  <br>
   <strong>Data final:</strong>
   <%= @report.end_dt %>
-</p>
+  
+  <br><br>
+  <% if @report.total%>
+    <b>Somatório total: </b><%=@report.reportcells.sum(:total)%>Kg
+  <%end%>
 
-
-<table>
+<br><br>
+<table class="table table-striped">
   <thead>
     <tr>
       <% if @report.generate_by == 1 %><th>Nome do dep.</th><% end %>
@@ -44,8 +65,8 @@
 
   <tbody>
     <% @report.reportcells.each do |rcell| %>
-        <% if @report.generate_by == 1 %><td><%= rcell.dep_name[16,rcell.dep_name.size] %></td><% end %>
-        <% if @report.generate_by == 2 %><td><%= rcell.lab_name[15,rcell.lab_name.size]  %></td><% end %>
+        <% if @report.generate_by == 1 %><td><%= rcell.dep_name %></td><% end %>
+        <% if @report.generate_by == 2 %><td><%= rcell.lab_name %></td><% end %>
         <td><%= rcell.res_name %></td>
         <% if @report.kind %><td><%= rcell.kind %></td><% end %>
         <% if @report.state %><td><%= rcell.state %></td><% end %>
@@ -59,12 +80,5 @@
         
   </tbody>
 </table>
-
-<table>
-  <thead>
-     <% if @report.total %><tr><p>Somatório total: <%=@report.reportcells.sum(:total)%></p> </tr><%end%>
-  </thead>
-</table>
-
-<%= link_to 'Editar', edit_report_path(@report),class: 'css_btn_class' %> |
-<%= link_to 'Voltar', reports_path,class: 'css_btn_class' %>
+<hr>
+</div>

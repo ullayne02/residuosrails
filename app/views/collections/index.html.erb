@@ -1,12 +1,13 @@
+<div class="container">
 <p id="notice"><%= notice %></p>
 
-<h1>Collections</h1>
+<h1>Coletas</h1>
 
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
-      <th>Max value</th>
-      <th>Report</th>
+      <th>Valor máximo</th>
+      <th>Relatório</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,9 +17,8 @@
       <tr>
         <td><%= collection.max_value %></td>
         <td><%= collection.report %></td>
-        <td><%= link_to 'Show', collection %></td>
-        <td><%= link_to 'Edit', edit_collection_path(collection) %></td>
-        <td><%= link_to 'Destroy', collection, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', collection,class: 'btn' %></td>
+        <td><%= link_to 'Destroy', collection, method: :delete, data: { confirm: 'Are you sure?' },class: 'btn' %></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +26,5 @@
 
 <br>
 
-<%= link_to 'New Collection', new_collection_path %>
+<%= link_to 'Nova Coleta', new_collection_path, class: 'btn' %>
+</div>

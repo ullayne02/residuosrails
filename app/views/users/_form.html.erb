@@ -10,92 +10,128 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
+  
+  <br>
+  <div class="row">
+    <div class="span3">
+      <div class="field">
+        <%= f.label :name, "Nome:" %>
+        <%= f.text_field :name %>
+      </div>
+    </div>
+    <div class="span9">
+      <div class="field">
+        <%= f.label :last_name, "Sobrenome:"  %>
+        <%= f.text_field :last_name %>
+      </div>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :last_name %>
-    <%= f.text_field :last_name %>
-  </div>
-
+  
   <div class="field">
     <%= f.label :email %>
     <%= f.text_field :email %>
   </div>
-
-  <div class="field">
-    <%= f.label :password %>
-    <%= f.text_field :password %>
+  
+  <div class="row">
+    <div class="span3">
+      <div class="field">
+        <%= f.label :password, "Senha:"  %>
+        <%= f.text_field :password %>
+      </div>
+    </div>
+    <div class="span9">
+      <div class="field">
+        <%= f.label :birthday, "Data de aniversário:" %>
+        <%= f.date_select :birthday %>
+      </div>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label :birthday %>
-    <%= f.date_select :birthday %>
+  <div class="row">
+    <div class="span2">
+      <div class="field">
+        <%= f.label :kind, "Tipo do usuário:"%>
+        <%= f.select :kind, [['Administrador','adm'], ['Facilitador', 'fac']] %>
+      </div>
+    </div>
+    <div class="span2">
+      <div class="field">
+        <%= f.label :gender, "Gênero:" %>
+        <%= f.select :gender, [['M','M'], ['F', 'F']] %>
+      </div>
+    </div>
+    <div class="span4">
+      <div class="field">
+        <%= f.label :phone, "Telefone fixo:"  %>
+        <%= f.text_field :phone %>
+      </div>
+    </div>
+    <div class="span4">
+      <div class="field">
+        <%= f.label :cell_phone, "Telefone celular:"  %>
+        <%= f.text_field :cell_phone %>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="span10">
+      <div class="field">
+        <%= f.label :place, "Endereço:" %>
+        <%= f.text_field :place %>
+      </div>  
+    </div>
+    <div class="span2">
+      <div class="field">
+        <%= f.label :number, "Número:" %>
+        <%= f.number_field :number %>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="span4">
+      <div class="field">
+        <%= f.label :complement, "Complemento:" %>
+        <%= f.text_field :complement %>
+      </div>
+    </div>
+    <div class="span4">
+      <div class="field">
+        <%= f.label :cep, "CEP:" %>
+        <%= f.text_field :cep %>
+      </div>
+    </div>
+    <div class="span4">
+      <div class="field">
+        <%= f.label :district, "Bairro:" %>
+        <%= f.text_field :district %>
+      </div>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label :gender %>
-    <%= f.text_field :gender %>
+  
+  <div class="row">
+    <div class="span4">
+      <div class="field">
+        <%= f.label :city, "Cidade:" %>
+        <%= f.text_field :city %>
+      </div>
+    </div>
+    <div class="span4">
+      <div class="field">
+        <%= f.label :state, "Estado:"%>
+        <%= f.text_field :state %>
+      </div>
+    </div>
+    <div class="span4">
+      <div class="field">
+        <%= f.label :country, "Pais:" %>
+        <%= f.text_field :country %>
+      </div>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :place %>
-    <%= f.text_field :place %>
-  </div>
-
-  <div class="field">
-    <%= f.label :number %>
-    <%= f.number_field :number %>
-  </div>
-
-  <div class="field">
-    <%= f.label :complement %>
-    <%= f.text_field :complement %>
-  </div>
-
-  <div class="field">
-    <%= f.label :cep %>
-    <%= f.text_field :cep %>
-  </div>
-
-  <div class="field">
-    <%= f.label :district %>
-    <%= f.text_field :district %>
-  </div>
-
-  <div class="field">
-    <%= f.label :city %>
-    <%= f.text_field :city %>
-  </div>
-
-  <div class="field">
-    <%= f.label :state %>
-    <%= f.text_field :state %>
-  </div>
-
-  <div class="field">
-    <%= f.label :country %>
-    <%= f.text_field :country %>
-  </div>
-
-  <div class="field">
-    <%= f.label :phone %>
-    <%= f.text_field :phone %>
-  </div>
-
-  <div class="field">
-    <%= f.label :cell_phone %>
-    <%= f.text_field :cell_phone %>
-  </div>
-
-  <div class="field">
-    <%= f.label :kind %>
-    <%= f.text_field :kind %>
-  </div>
-
+  
   <div class="actions">
     <%= f.submit %>
   </div>

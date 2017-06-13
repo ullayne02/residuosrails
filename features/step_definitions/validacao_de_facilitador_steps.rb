@@ -83,7 +83,7 @@ end
 
 Given(/^existe uma requisicao pendente$/) do
     
-    create_user_gui("lar", "z@cin.ifpe.br", "123", "fac")
+    create_user_gui("lar", "z@cin.ifpe.br", "123", "Facilitador")
     create_department_gui("cin")
     create_laboratory_gui("grad1", "cin")
     create_request_gui("lar", "grad1")
@@ -103,7 +103,7 @@ end
 
 Given(/^o facilitador "([^"]*)" esta associado ao laboratorio de "([^"]*)"$/) do |fac_name, lab_name|
     
-    create_user_gui(fac_name, "a@cin.ifpe.br", "123", "fac")
+    create_user_gui(fac_name, "a@cin.ifpe.br", "123", "Facilitador")
     create_department_gui("cin")
     create_laboratory_gui(lab_name, "cin")
     create_request_gui(fac_name,lab_name)
@@ -126,6 +126,117 @@ Then(/^eu vejo uma mensagem informando que o facilitador "([^"]*)" ja esta assoc
     
 end
 
+################################### Cenários de @d9 até @d12 #############################################################
+
+@request = nil
+@user = nil
+
+Given(/^que o facilitador de login "([^"]*)" está cadastrado no sistema$/) do |fac_name|
+    param_fac = {user: {name: fac_name, email: "vrvs@cin.ufpe.br", password: "adc", kind: "fac"}}
+    post '/users', param_fac
+    fac = User.find_by(name: fac_name)
+    expect(fac).to_not be nil
+end
+
+Given(/^o laboratório "([^"]*)" está cadastrado no sistema$/) do |lab_name|
+   param_lab = {laboratory: {name: lab_name, department: nil}}
+    post '/laboratories', param_lab
+    p_lab = Laboratory.find_by(name: lab_name)
+    expect(p_lab).to_not be nil
+end
+
+Given(/^existe uma solicitação de acesso do facilitador "([^"]*)" ao laboratório de "([^"]*)"$/) do |fac_name, lab_name|
+   
+    p_user = User.find_by(name: fac_name)
+    p_lab = Laboratory.find_by(name: lab_name)
+    expect(p_user).to_not be nil
+    expect(p_lab).to_not be nil
+    
+    param_req = {request: {user_id: p_user.id, laboratory_id: p_lab.id}}
+    post '/requests', param_req
+    @request = Request.find_by(user_id: p_user.id)
+    expect(@request).to_not be nil
+    
+end
+
+When(/^o administrador rejeita a solicitação$/) do
+  post 'refuse_request', :request => @request.id
+end
+
+Then(/^o sistema gera uma notificação de rejeição da solicitação$/) do
+
+  param_not = {notification: {message: "rejeitaa"}}
+  post '/notifications', param_not
+  p_not = Notification.find_by(message: "rejeitaa")
+  expect(p_not).to_not be nil 
+  
+end
+
+When(/^o administrador aceita a solicitação$/) do
+  post 'accept_request', :request => @request.id
+end
+
+Then(/^o sistema gera uma notificação de aceitação da solicitação$/) do
+
+  param_not = {notification: {message: "aceitaaa"}}
+  post '/notifications', param_not
+  p_not = Notification.find_by(message: "aceitaaa")
+  expect(p_not).to_not be nil 
+  
+end
+
+Given(/^o facilitador de login "([^"]*)" é um usuário do sistema$/) do |fac_name|
+  visit 'users/new'
+    fill_in('user_name', :with => fac_name)
+    fill_in('user_email', :with => "joc@cin.ufpe.br")
+    fill_in('user_password', :with => "111")
+    page.select 'Facilitador', :from => 'user_kind'
+    click_button 'Create User'
+end
+
+Given(/^o facilitador "([^"]*)" solicitou acesso ao laboratório de "([^"]*)"$/) do |fac_name, lab_name|
+    visit 'departments/new'
+    fill_in('department_name', :with => "cin")
+    click_button 'Create Department'
+    
+    visit 'laboratories/new'
+    fill_in('laboratory_name', :with => lab_name)
+    page.select "cin", :from => 'laboratory_department_id'
+    click_button 'Create Laboratory'
+    
+    visit 'requests/new'
+    page.select fac_name, :from => 'request_user_id'
+    page.select lab_name, :from => 'request_laboratory_id'
+    click_button 'Create Request'
+    expect(page).to have_content fac_name 
+    visit '/requests'
+    
+    @user = fac_name
+end
+
+When(/^o administrador clica no botão para rejeitar a solicitação$/) do
+  click_on('Rejeitar')
+end
+
+When(/^o administrador clica no botão para aceitar a solicitação$/) do
+  click_on('Aceitar')
+end
+
+Then(/^o facilitador vê uma notificação de aceitação de solicitação$/) do
+  visit '/main_fac'
+  
+  element = find("td", text: "O administrador aceitou sua solicitação " + @user)
+  
+  expect(element).to_not be nil
+end
+
+Then(/^o facilitador vê uma notificação de rejeição de solicitação$/) do
+  visit '/main_fac'
+  
+  element = find("td", text: "O administrador rejeitou sua solicitação " + @user)
+  
+  expect(element).to_not be nil
+end
 ###############################Cenarios @d5-d8####################################
 
 ###CONTROLADOR
@@ -173,7 +284,7 @@ end
 
 When(/^eu vejo que o facilitador "([^"]*)" fez uma requisicao ao laboratorio "([^"]*)"$/) do |fac_name, lab_name|
     
-    create_user_gui(fac_name, "b@cin.ifpe.br", "123", "fac")
+    create_user_gui(fac_name, "b@cin.ifpe.br", "123", "Facilitador")
     create_department_gui("cin")
     create_laboratory_gui(lab_name, "cin")
     create_request_gui(fac_name,lab_name)
@@ -279,7 +390,7 @@ def create_user_gui(user_name, user_email, password, kind)
     fill_in('user_name', :with => user_name)
     fill_in('user_email', :with => user_email)
     fill_in('user_password', :with => password)
-    fill_in('user_kind', :with => kind)
+    page.select kind, :from => 'user_kind'
     click_button 'Create User'
 end
 
