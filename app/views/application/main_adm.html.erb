@@ -1,10 +1,7 @@
-<<<<<<< HEAD
+
 <div class = title>
 <h1>Página principal do administrador</h1>
 </div>
-=======
-<<<<<<< HEAD
->>>>>>> rllima-master
 <style>
 table {
     font-family: arial, sans-serif;
@@ -46,6 +43,7 @@ tr:nth-child(odd) {
   width:35%;
   border:1px solid red;
 }
+
 </style>
 
 <% col = Collection.last %>
@@ -57,14 +55,13 @@ tr:nth-child(odd) {
 <div id="table-wrapper">
     <div id="table-scroll">
         <table>
-            <thead>
+            <thead">
                 <tr><th id="title">Notificações</th></tr>
             </thead>
             <tbody>
                 <% Notification.all.each do |notif| %>
                   <tr><td><%= notif.message %></td></tr>
                 <% end %>
-                <tr><td>balblabla</td></tr>
             </tbody>
             
         </table>
@@ -76,9 +73,6 @@ tr:nth-child(odd) {
 
 
 <br>
-<div class = "menu">
-<h1>Página principal do administrador</h1>
-</div>
 <br>
 <div class = "menu">
 <%= link_to 'pagina de geração de relatorios', reports_path %> <br>

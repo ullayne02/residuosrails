@@ -27,12 +27,12 @@
 
 <p>
   <strong>Laboratory:</strong>
-  <%= @residue.laboratory %>
+  <%= @residue.laboratory.name %>
 </p>
 
 <p>
   <strong>Collection:</strong>
-  <%= @residue.collection %>
+  <%= @residue.collection.id %>
 </p>
 
 <%= link_to 'Edit', edit_residue_path(@residue) %> |

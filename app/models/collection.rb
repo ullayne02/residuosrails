@@ -55,7 +55,7 @@ class Collection < ApplicationRecord
   def generate_notification
     total_weight = 0
     col = Collection.last
-    col.porcent = 0.933333
+    col.porcent = 0.93333333
     
     Residue.all.each do |res|
       total_weight += res.registers.where(created_at: [col.created_at..Time.now]).sum(:weight)
@@ -69,6 +69,10 @@ class Collection < ApplicationRecord
       Notification.create(message: "Passou do peso limite, deve fazer uma licitação", collection_id: col.id)
       
     elsif total_weight > (col.max_value*col.porcent)
+      if(col.notification != nil)
+        notif = Notification.find_by(collection_id: col.id)
+        notif.destroy
+      end
       Notification.create(message: "O peso está próximo do peso mínimo para fazer uma licitação", collection_id: col.id)
     end
     

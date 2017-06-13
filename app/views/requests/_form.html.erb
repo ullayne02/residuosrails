@@ -18,7 +18,7 @@
 
   <div class="field">
     <%= f.label :laboratory_id %>
-    <%= f.text_field :laboratory_id %>
+    <%= f.collection_select(:laboratory_id, Laboratory.all.order(:name), :id, :name) %>
   </div>
 
   <div class="actions">
