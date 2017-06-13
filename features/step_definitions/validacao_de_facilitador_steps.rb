@@ -42,7 +42,7 @@ Given(/^o adm "([^"]*)" esta asscoiado ao sistema$/) do |adm_name|
     
     user = create_user({user: {name: adm_name, email: "adc@abc.com", password: "123", kind: "adm"}})
     expect(user).to_not be nil
-  
+
 end
 
 When(/^o facilitador "([^"]*)" faz uma requisicao de acesso para o laboratorio "([^"]*)"$/) do |fac_name, lab_name|
@@ -165,7 +165,6 @@ Then(/^o sistema mostra uma notificacao avisando que um administrador nao pode p
 end
 
 
-
 #####Gui
 
 Given(/^estou na pagina de administrador$/) do
@@ -174,27 +173,10 @@ end
 
 When(/^eu vejo que o facilitador "([^"]*)" fez uma requisicao ao laboratorio "([^"]*)"$/) do |fac_name, lab_name|
     
-    visit 'users/new'
-    fill_in('user_name', :with => fac_name)
-    fill_in('user_email', :with => "joc@cin.ufpe.br")
-    fill_in('user_password', :with => "111")
-    fill_in('user_kind', :with => "fac")
-    click_button 'Create User'
-    
-     
-    visit 'departments/new'
-    fill_in('department_name', :with => "cin")
-    click_button 'Create Department'
-    
-    visit 'laboratories/new'
-    fill_in('laboratory_name', :with => lab_name)
-    page.select "cin", :from => 'laboratory_department_id'
-    click_button 'Create Laboratory'
-    
-    visit 'requests/new'
-    page.select fac_name, :from => 'request_user_id'
-    page.select lab_name, :from => 'request_laboratory_id'
-    click_button 'Create Request'
+    create_user_gui(fac_name, "b@cin.ifpe.br", "123", "fac")
+    create_department_gui("cin")
+    create_laboratory_gui(lab_name, "cin")
+    create_request_gui(fac_name,lab_name)
     
     expect(page).to have_content fac_name 
     expect(page).to have_content lab_name
@@ -208,9 +190,10 @@ Then(/^o mostra uma notificacao avisando que o facilitador "([^"]*)" fez uma req
     element = find("td", text:"Facilitador " + fac_name + " fez um pedido de acesso ao laboratorio " + lab_name)
     expect(element).to_not be nil
 end
+@req = nil 
 
 Given(/^o facilitador "([^"]*)" esta associado ao laboratorio "([^"]*)"$/) do |fac_name, lab_name|
-    fac = create_user({user: {name: fac_name, email: "abc@abc.com", password: "123", kind: "fac"}})
+    fac = create_user({user: {name: fac_name, email: "c@abc.com", password: "123", kind: "fac"}})
     expect(fac).to_not be nil
     
     dep_name = "cin"
@@ -221,38 +204,32 @@ Given(/^o facilitador "([^"]*)" esta associado ao laboratorio "([^"]*)"$/) do |f
     lab = create_laboratory({laboratory: {name: lab_name, department_id: dep.id}})
     expect(lab).to_not be nil
     
-    req = create_request({request: {user_id: adm.id, laboratory_id: lab.id}})
-    expect(req).to_not be nil 
-    post 'accept_request', :request => req.id
-
+    @req = create_request({request: {user_id: fac.id, laboratory_id: lab.id}})
+    expect(@req).to_not be nil 
+    post 'accept_request', :request => @req.id
 
 end
 
-@request = nil 
 When(/^o facilitador "([^"]*)" faz requisicao de acesso ao laboratorio "([^"]*)"$/) do |fac_name, lab_name|
-  param_fac = {user: {name: fac_name, email: "uffl@cin.ufpe.br", password: "adc", kind: "fac"}}
-    post '/users', param_fac
-    p param_fac
+    dep_name = "cin"
+    dep = create_department({department: {name: dep_name}})
+    expect(dep).to_not be nil
+    
+    lab = create_laboratory({laboratory: {name: lab_name, department_id: dep.id}})
+    expect(lab).to_not be nil
+    
     fac = User.find_by(name: fac_name)
     expect(fac).to_not be nil
     
-    param_lab = {laboratory: {name: lab_name, department: nil}}
-    post '/laboratories', param_lab
-    p_lab = Laboratory.find_by(name: lab_name)
-    expect(p_lab).to_not be nil
+    req = create_request({request: {user_id: fac.id, laboratory_id: lab.id}})
+    expect(req).to_not be nil 
     
-    param_req = {request: {user_id: fac.id, laboratory_id: p_lab.id}}
-    post '/requests', param_req
-    @request = Request.find_by(user_id: fac.id)
     
-    expect(@request).to_not be nil
 end
 
-Then(/^o sistema gera uma notificacao informando que o facilitador "([^"]*)" nao pode se associar a mais de um laboratorio$/) do |lab_name|
+Then(/^o sistema gera uma notificacao informando que o facilitador "([^"]*)" nao pode se associar a mais de um laboratorio$/) do |fac_name|
     
-    param_not = {notification: {message: "Nova requisicao",request_id: @request.id}}
-    post '/notifications', param_not
-    noti = Notification.find_by(request_id: @request.id)
+    noti = create_notification({notification: {message: "O facilitador " + fac_name+ " ja esta associado a um laboratorio", request_id: @req.id}})
     expect(noti).to_not be nil
     
 end

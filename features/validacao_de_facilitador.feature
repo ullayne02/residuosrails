@@ -37,13 +37,6 @@ Feature: Validação de Facilitador
     And o laboratorio "quimica" esta associado ao sistema
     When o administrador "joc" pede acesso ao laboratório "quimica"
     Then o sistema gera uma notificacao avisando que nao pode pedir acesso a laboratorio 
-
- @d6
- Scenario: Um administrador pede acesso a um laboratorio
-    Given o administrador "joc" esta associado ao sistema
-    And o laboratorio "quimica" esta associado ao sistema
-    When o administrador "joc" pede acesso ao laboratório "quimica"
-    Then o sistema mostra uma notificacao avisando que um administrador nao pode pedir acesso a laboratorio 
     
   @d7 
   Scenario: O administrador ver as notificacoes de novas requisicoes de acesso a laboratorio 
