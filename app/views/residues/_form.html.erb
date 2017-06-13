@@ -10,46 +10,49 @@
       </ul>
     </div>
   <% end %>
-<br>
-  <div class="field res_name">
-    <%= f.label :name %>
+
+  <div class="field">
+    <%= f.label :name, "Nome:" %>
     <%= f.text_field :name %>
   </div>
-<br>
-  <div class="field res_kind">
-    <%= f.label :kind %>
-    <%= f.select :kind, ["Sólido Orgânico","Sólido Inorgânico","Líquido Orgânico","Líquido Inorgânico","Líquido Inflamável","Outros"]%>
+  
+  <div class="field">
+    <div class="span4">
+      <div class="field">
+        <%= f.label :kind, "Tipo:" %>
+        <%= f.select :kind, ["Sólido Orgânico","Sólido Inorgânico","Líquido Orgânico","Líquido Inorgânico","Líquido Inflamável","Outros"] %>
+      </div>
+    </div>
+    <div class="span8">
+      <div class="field">
+        <%= f.label :blend, "Composição:" %>
+        <%= f.text_field :blend %>
+      </div>
+    </div>
   </div>
-<br>
-  <div class="field res_blend">
-    <%= f.label :blend %>
-    <%= f.text_field :blend %>
+  
+  <div class="field">
+  <div class="span4">
+    <div class="field">
+      <%= f.label :onu, "Código ONU:" %>
+      <%= f.text_field :onu %>
+    </div>
   </div>
-<br>
-  <div class="field res_onu">
-    <%= f.label :onu %>
-    <%= f.text_field :onu %>
+  <div class="span4">
+    <div class="field">
+      <%= f.label :code, "Código Class:" %>
+      <%= f.text_field :code %>
+    </div>
   </div>
-<br>
-  <div class="field res_code">
-    <%= f.label :code %>
-    <%= f.text_field :code %>
+    <div class="span4">
+      <div class="field">
+        <%= f.label :laboratory_id, "Laboratório:"  %>
+        <%= f.collection_select(:laboratory_id, Laboratory.all.order(:name), :id, :name) %>
+      </div>
+    </div>
   </div>
-<br>
-  <div class="field res_lab">
-    <%= f.label :laboratory_id %>
-    <%= f.collection_select(:laboratory_id, Laboratory.all.order(:name), :id, :name) %>
-  </div>
-<br>
-  <div class="field res_colelection">
-    <%if !Collection.all.empty?%>
-    <%= f.label :collection_id %>
-    <%= f.collection_select(:collection_id, Collection.all.where(created_at: Collection.last.created_at), :id, :id) %>
-    <% end %>
-  </div>
-<br>
+
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
-<br>

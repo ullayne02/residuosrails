@@ -29,7 +29,7 @@ class LaboratoriesController < ApplicationController
 
     respond_to do |format|
       if @laboratory.save
-        format.html { redirect_to @laboratory, notice: 'Laboratory was successfully created.' }
+        format.html { redirect_to @laboratory, notice: 'Laboratório criado com sucesso!' }
         format.json { render :show, status: :created, location: @laboratory }
       else
         format.html { render :new }

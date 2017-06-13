@@ -16,7 +16,7 @@ Feature: Sistema de Notificação
     
     @a2
     Scenario: O peso da quantidade de resíduos já cadastrados no sistema é maior ou igual que o limite mínimo para emitir um alerta
-         Given o sistema possui o departamento de "Quimica"
+        Given o sistema possui o departamento de "Quimica"
         And o sistema possui o laboratório de "Quimica 1"
         And o sistema possui o resíduo "Acido Cloridrico" cadastrado no laboratorio de "Quimica 1"
         And o peso mínimo para afirmar que está próximo do limitante é de "7000"kg

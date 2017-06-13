@@ -10,24 +10,18 @@
       </ul>
     </div>
   <% end %>
-  <br>
-  
-  <div class="field lb_name">
-    
-    <%= f.label :name, "Nome: " %>
+
+  <div class="field">
+    <%= f.label :name, "Nome:" %>
     <%= f.text_field :name %>
   </div>
-  
-  <br>
-  <div class="field lb_list">
-    <%= f.label :department_id, "Departamento: " %>
+
+  <div class="field">
+    <%= f.label :department_id, "Departamento:" %>
     <%= f.collection_select(:department_id, Department.all.order(:name), :id, :name) %>
   </div>
-  <br>
-  
-  
+
   <div class="actions">
     <%= f.submit %>
   </div>
-  <br>
 <% end %>

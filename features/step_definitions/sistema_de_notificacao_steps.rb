@@ -110,7 +110,7 @@ Then(/^o sistema gera uma notificação de alerta de peso próximo ao limite má
   expect(p_not).to_not be nil 
 end
 
-#######################################################################################################################################
+################################################# Testes GUI #########################################################################
 
 Given(/^o peso próximo ao limitante do sistema é "([^"]*)"kg$/) do |max_value_close|
   max_weight = max_value_close.to_f() * (1/porcent).to_f()

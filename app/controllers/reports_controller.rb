@@ -38,8 +38,52 @@ class ReportsController < ApplicationController
     end
     
     respond_to do |format|
-      if @report.save
-        format.html { redirect_to @report, notice: 'Report was successfully created.' }
+      error_inconsistent_data_time = false
+      if report_params[:generate_by].to_i != 0 and @begin_datetime >= @end_datetime then
+        error_inconsistent_data_time = true
+      end
+      
+      error_residuos_not_find = true
+      case report_params[:generate_by].to_i
+        when 0
+          error_residuos_not_find = false
+        when 1  #teste por departamento
+          report_params[:list].each do |dep_name|
+            if dep_name == "" then
+              next
+            end
+            labs = Department.find_by(name: dep_name).laboratories
+            if labs != nil then
+              labs.each do |lab|
+                if !lab.residues.empty? then
+                  error_residuos_not_find = false
+                end
+              end
+            end
+          end
+        when 2  #teste por laboratórios
+          report_params[:list].each do |lab_name|
+            if lab_name == "" then
+              next
+            end
+            if !Laboratory.find_by(name: lab_name).residues.empty? then
+              error_residuos_not_find = false
+            end
+          end
+        when 3
+          error_residuos_not_find = false
+      end
+      
+      if error_inconsistent_data_time
+        @report.errors.add(:begin_dt, :blank, message: "intervalo de data invalido: a data e hora de inicio esta posterior ou iqual a data e hora de final do intervalo requerido.")
+        format.html { render :new }
+        format.json { render json: @report.errors, status: :unprocessable_entity }
+      elsif error_residuos_not_find
+        @report.errors.add(:list, :blank, message: "Não há residuos associados a esse(s) departamento(s)/laboratório(s)!")
+        format.html { render :new }
+        format.json { render json: @report.errors, status: :unprocessable_entity }
+      elsif @report.save
+        format.html { redirect_to @report, notice: 'O Relatório foi criado com sucesso!' }
         format.json { render :show, status: :created, location: @report }
         case report_params[:generate_by].to_i
           when 0  #relatório por coleção
@@ -79,6 +123,22 @@ class ReportsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to reports_url, notice: 'Report was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+  
+  def generate_by_collection
+    col = Collection.last
+    @begin_datetime = col.created_at
+    @end_datetime = Time.now()
+    @report.begin_dt = col.created_at
+    @report.end_dt = Time.now()
+    @report.save
+    col.residues.each do |res|
+      repc = @report.reportcells.find_by(res_name: res.name)
+      if repc == nil then
+        repc = Reportcell.create(res_name: res.name, total: 0, report_id: @report.id)
+      end
+      add_constraint(repc, res, add_registers(res).sum(:weight))
     end
   end
   
@@ -127,6 +187,8 @@ class ReportsController < ApplicationController
       end
     end
   end
+  
+  
   
   def add_registers(res)
     regs = res.registers.where(created_at: [@begin_datetime..@end_datetime]).order(:created_at)

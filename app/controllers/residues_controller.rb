@@ -28,7 +28,7 @@ class ResiduesController < ApplicationController
 
     respond_to do |format|
       if @residue.save
-        format.html { redirect_to @residue, notice: 'Residue was successfully created.' }
+        format.html { redirect_to @residue, notice: 'Resíduo foi criado com sucesso!' }
         format.json { render :show, status: :created, location: @residue }
       else
         format.html { render :new }

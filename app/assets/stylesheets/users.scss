@@ -1,3 +1,35 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#user_last_name {
+    width: 100%;
+}
+
+#user_district,
+#user_country,
+#user_kind,
+#user_gender,
+#user_cell_phone,
+#user_number,
+#user_email {
+    width: 100%;
+}
+
+#user_place,
+#user_phone {
+    width: 98%;
+}
+
+#user_complement,
+#user_cep,
+#user_state,
+#user_city {
+    width: 95%;
+}
+
+#user_birthday_1i,
+#user_birthday_2i, 
+#user_birthday_3i {
+    width: 32.859%;
+}
