@@ -21,7 +21,7 @@
     reg = modify_date_last_register(res.id, "23/02/2017")
     expect(reg).to_not be nil
     expect(res.weight).to eq(res_weight.to_f())
-    end
+  end
   
   When(/^eu tento produzir o relatório total de resíduos cadastrados entre as datas "([^"]*)" e "([^"]*)" para o departamento de "([^"]*)"$/) do |data_begin, data_final, dep_name|
       @dep_name = dep_name
