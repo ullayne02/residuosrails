@@ -48,7 +48,7 @@ tr:nth-child(odd) {
 
 <% col = Collection.last %>
 <% if col != nil %>
-<% col.generate_notification %>
+  <% col.generate_notification %>
 <% end %>
 <br>
 
@@ -60,9 +60,7 @@ tr:nth-child(odd) {
             </thead>
             <tbody>
                 <% Notification.all.each do |notif| %>
-                  <% if notif.fac_id == 0 %>
-                    <tr><td><%= notif.message %></td></tr>
-                  <% end %>
+                  <tr><td><%= notif.message %></td></tr>
                 <% end %>
             </tbody>
             
